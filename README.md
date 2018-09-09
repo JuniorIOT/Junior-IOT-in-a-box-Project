@@ -6,13 +6,9 @@ previous version:
 Inexpensive low-quality Lora32u4 GPS tracker for #juniorIOTchallenge and JuniorIOTinabox
 
 ## Inexpensive low-quality Lora32u4 GPS tracker
-  this version has evolved for the IOT in a box, and also to be a match for many applications
-    https://github.com/JuniorIOT/Junior-IOT-in-a-box-Project
-  iteration 2017 is for the Junior IoT Baloon Challenge february 2018
-    https://github.com/Kaasfabriek/Junior_Internet_of_Things_2018
-  original iteration in 2016 was created for the Junior IoT Baloon Challenge february 2017
-    so for a basic Lora location transmittor with GPS, arduino nano and rfm95 see 
-    https://github.com/Kaasfabriek/GPS-Lora-Balloon-rfm95-TinyGPS/tree/master/Balloon-rfm95
+- This version has evolved for the IOT in a box, and also to be a match for many applications. https://github.com/JuniorIOT/Junior-IOT-in-a-box-Project
+- Iteration 2017 is for the Junior IoT Baloon Challenge february 2018. https://github.com/Kaasfabriek/Junior_Internet_of_Things_2018
+- Original iteration in 2016 was created for the Junior IoT Baloon Challenge february 2017 as a basic Lora location transmittor with GPS, arduino nano and rfm95. https://github.com/Kaasfabriek/GPS-Lora-Balloon-rfm95-TinyGPS/tree/master/Balloon-rfm95
 
 Credits:
 - Software plakker: Dennis --> dennis.ruigrok@gmail.com
