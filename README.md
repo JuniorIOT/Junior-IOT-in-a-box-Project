@@ -1,30 +1,24 @@
 # Junior-IOT-in-a-box-Project
 Code and documentation for Junior-IOT-in-a-box where you can build your own diy sensoring with TTN Lorawan based on Lora32u4
 
-
-previous version: 
-Inexpensive low-quality Lora32u4 GPS tracker for #juniorIOTchallenge and JuniorIOTinabox
-
-## Inexpensive low-quality Lora32u4 GPS tracker
+## Inexpensive diy Lora32u4 GPS tracker
 - This version has evolved for the IOT in a box, and also to be a match for many applications. https://github.com/JuniorIOT/Junior-IOT-in-a-box-Project
 - Iteration 2017 is for the Junior IoT Baloon Challenge february 2018. https://github.com/Kaasfabriek/Junior_Internet_of_Things_2018
 - Original iteration in 2016 was created for the Junior IoT Baloon Challenge february 2017 as a basic Lora location transmittor with GPS, arduino nano and rfm95. https://github.com/Kaasfabriek/GPS-Lora-Balloon-rfm95-TinyGPS/tree/master/Balloon-rfm95
 
+This software has been created for edicational reasons. Any commercial usage will need prior agreement with author(s) and compensation for costs and effords. 
+For any commercial project, consider using non-diy hardware such as the Sodaq One. Your commercial project will benefit from the extensive research and licensing steps as done for such products.
+
 Credits:
-- Software plakker: Dennis --> dennis.ruigrok@gmail.com
-- Educatie kletser: Marco --> marco@junioriot.nl
-- Regie en inspiratie: marco@marcovanschagen.nl
-- Junior IOT Challenges: marco@dataschrift.nl
-
-## Important
-
-
+- Software creator: Dennis --> dennis.ruigrok@gmail.com
+- Workshop maker: Marco --> marco@junioriot.nl
 
 ## Important files and folders
-- arduino folder
-- docs 
+- docs - tutorials with pictures
+- arduino - you find the arduino code here
+- arduino_port - a portable and pre-configured arduino IDE
 - libraries - we are using some adjusted versions
-- drivers
+- drivers - 
 
 
 ## Pin mapping for Lora32u4 in this project
