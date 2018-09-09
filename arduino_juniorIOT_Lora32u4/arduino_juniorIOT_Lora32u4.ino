@@ -7,11 +7,14 @@
 //   Lora32u4            - compile as adafruit feather 32u4
 //   SS micro atmega32u4 - compile as ??   bricked --> use reset to GND at programming time 
 
-// Libraries to add from our libraries subfolder: 
-//    <NeoSWSerial.h>  --> C:\arduino_port\GitHub\Junior_Internet_of_Things_2018\libraries\NeoSWSerial-master-DamiaBranch.zip
-//    <NMEAGPS.h>      --> C:\arduino_port\GitHub\Junior_Internet_of_Things_2018\libraries\NeoGPS-master.zip  --> and adjust them according to lines 45- below
-//    <lmic_slim.h>    --> C:\arduino_port\GitHub\Junior_Internet_of_Things_2018\libraries\lmic_slim.zip
-//    <RH_RF95.h>      --> C:\arduino_port\GitHub\Junior_Internet_of_Things_2018\libraries\RadioHead-1.79.zip
+// Libraries to add from our libraries subfolder C:\arduino_port\GitHub\Junior-IOT-in-a-box-Project\libraries\ 
+//    <NeoSWSerial.h>  --> \NeoSWSerial-master-DamiaBranch.zip
+//    <NMEAGPS.h>      --> \NeoGPS-master.zip  --> and adjust them according to lines 45- below
+//    <lmic_slim.h>    --> \lmic_slim.zip
+//   // <RH_RF95.h>      --> \RadioHead-1.79.zip
+
+// libraries to add 
+//   Seeed_BME280.h
  
 //#define DEBUG           // if DEBUG is defined, some code is added to display some basic debug info
 //#define DEBUGLEVEL2     // if DEBUGLEVEL2 is defined, some code is added to display deeper debug info
@@ -66,7 +69,7 @@ unsigned long gps_last_time = millis();
 
 //#include <SPI.h>  //MISO MOSI SCK stuff that was part of 2017 thing with rfm95
 #define PAYLOADSIZE 38 // The size of the package to be sent
-#include <avr/pgmspace.h>
+#include <avr/pgmspace.h>  // not sure why this one
 #include <lmic_slim.h>     // the really cool micro-library, to replace our 2017 LMIC which filled 99% memory
 #include "keys.h"          // the personal keys to identify our own nodes, in a file outside GITHUB
 
@@ -345,7 +348,7 @@ void gps_setStrings() {
   #endif
 
   // Turning ON or OFF  GPS NMEA strings 
-  // we need lat, lon, alt, HDOP  --> keep GGA
+  // we need lat, lon, alt, HDOP, date  --> keep GGA, RMC
 
   // GLL = Lat/Lon time fix
   //ss.print(F("$PUBX,40,GLL,0,0,0,0*5C\r\n"));  // GLL OFF
@@ -522,294 +525,6 @@ void doOneLoraWan() {
   Serial.print(F("Completed: Do one lora. t=")); Serial.println(millis());
   #endif
 }
-
-////////////////////////////////////////////////////
-//// Kaasfabriek routines for RFM95 radio to radio 
-/////////////////////////////////////////////////
-//
-//// radiohead radio 2 radio
-//#include <RH_RF95.h>  
-///* for feather32u4 */  // this is what we use in Junior IOT Challenge 2018 by Dataschrift & Kaasfabriek Alkmaar 
-//#define RFM95_CS 8
-//#define RFM95_RST 4
-//#define RFM95_INT 7
-//// Change to 434.0 or other frequency, must match RX's freq!
-//// You can dial in the frequency you want the radio to communicate on, such as 915.0, 434.0 or 868.0 or any number really. Different countries/ITU Zones have different ISM bands so make sure you're using those or if you are licensed, those frequencies you may use
-//#define RF95_FREQ 868.0   // this is what we use in Junior IOT Challenge 2018 by Dataschrift & Kaasfabriek Alkmaar 
-//// Singleton instance of the radio driver
-//RH_RF95 rf95(RFM95_CS, RFM95_INT);
-//
-//int16_t packetnum = 0;  // packet counter, we increment per transmission
-//bool ReceivedFromRadio = false;
-//// radio buf
-//uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
-//
-//void doOneRadio() {
-//  #ifdef DEBUG
-//  Serial.print(F("Start: doOneRadio. t=")); Serial.println(millis());  
-//  #endif
-//  
-//  uint8_t radiopacket[10];
-//  
-//  formatRadioPackage(&radiopacket[0]);
-//  #ifdef DEBUGRADIO
-//  Serial.println(F("  Sending...")); delay(10);
-//  #endif
-//  rf95.send(radiopacket, 10);
-//
-//  // now, sending is done. start listening
-//  //Serial.println("Waiting for radio packet to complete..."); delay(10);
-//  rf95.waitPacketSent();
-//  // Now wait for a reply  
-//  uint8_t len = sizeof(buf);
-//  
-//  #ifdef DEBUGRADIO
-//  Serial.println(F("  Waiting for some other radio to reply...")); delay(10);
-//  #endif
-//  
-//  if (!rf95.waitAvailableTimeout(20000)) { 
-//    #ifdef DEBUGRADIO
-//    Serial.println(F("  No radio received in 20 sec.")); 
-//    #endif
-//  } else { 
-//    // a message was received
-//    if (!rf95.recv(buf, &len)) {
-//      #ifdef DEBUGRADIO 
-//      Serial.println(F("Receive buffer is empty.")); 
-//      #endif
-//    } else {
-//      // message has a length
-//      #ifdef DEBUGRADIO 
-//      RH_RF95::printBuffer("Received this radio message: ", buf, len);
-//      #endif
-//      
-//      #ifdef DEBUGRADIO
-//      Serial.println(F("Got reply:              ["));
-//      #endif
-//      decodeReply(buf, 1/*debug*/);
-//      //Serial.print((char*)buf);
-//      #ifdef DEBUGRADIO
-//      Serial.print(F("] RSSI: "));
-//      Serial.println(rf95.lastRssi(), DEC);
-//      #endif
-//      
-//      // RSSI values, indication for Wifi: http://www.metageek.com/training/resources/understanding-rssi.html
-//      //   -45 dBm  =  60 cm distance
-//      //   -110 dBm  =  probably 200 meter in streets
-//      //   -120 dBm  =  not good
-//      //   -125 dBm  =  unusable 
-//      ReceivedFromRadio = true; 
-//    }
-//  }
-//
-//  // done wait for radio
-//  #ifdef DEBUGRADIO
-//  Serial.print(F("  Completed: doOneRadio. t=")); Serial.println(millis());
-//  #endif 
-//}
-//
-//void halt_stressed() { 
-//  Serial.print(F("Panic. Halted. t=")); Serial.println(millis()); 
-//  while(1) {
-//    digitalWrite(LEDPIN, HIGH);   
-//    delay(150);
-//    digitalWrite(LEDPIN, LOW);  
-//    delay(50);
-//    Serial.print(F("x"));  
-//  }
-//}   
-//
-//void Radio_init() {  
-//  #ifdef DEBUG
-//  Serial.print(F("Init radio. t=")); Serial.println(millis());  
-//  #endif
-//  
-//  pinMode(RFM95_RST, OUTPUT);
-//  digitalWrite(RFM95_RST, HIGH);
-//
-//  // hard reset
-//  digitalWrite(RFM95_RST, LOW);
-//  delay(10);
-//  digitalWrite(RFM95_RST, HIGH);
-//  delay(10);
-//
-//  if (!rf95.init()) {
-//    Serial.println(F("Radio init failed"));
-//    //while (1);
-//    halt_stressed();
-//  }
-//  #ifdef DEBUGLEVEL2
-//  Serial.println(F("Radio init OK!"));
-//  #endif
-//
-//  // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
-//  if (!rf95.setFrequency(RF95_FREQ)) {
-//    Serial.println(F("setFrequency failed"));
-//    //while (1);
-//    halt_stressed();
-//  }
-//  #ifdef DEBUGLEVEL2
-//  Serial.print(F("Freq is set to: ")); 
-//  Serial.println(RF95_FREQ);
-//  #endif
-//  // Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on
-//
-//  // The default transmitter power is 13dBm, using PA_BOOST.
-//  // If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then 
-//  // you can set transmitter powers from 5 to 23 dBm:
-//  
-//  //rf95.setTxPower(23, false);
-//  rf95.setTxPower(13, false);   // is 13 TTN & TTNtracker intended spec?
-//}
-//
-///*
-//   byte 0          My ID      My ID and message type
-//        0b0000 0000            
-//          ---- nnnn MessType   
-//          ---- 0001 msg#1      Yelling out loud that I have fired
-//          ---- 0010 msg#2      You have fired and here is my answer 
-//          nnnn ---- MyID       
-//    byte 1, 2, 3    MyLat      
-//    byte 4, 5, 6    MyLon      
-//    byte 7          MyComp ++   
-//        0b0000 0000            
-//          -nnn nnnn MyComp     
-//          1--- ---- MyBtn#1       
-//    byte 8          RemoteID   Your ID, hey I am talkming to you
-//        0b0000 0000            
-//          ---- ---n WasIhit    Hit indicator
-//          nnnn ---- RemoteID   Value 0-31, Remote team ID
-//    byte 9          Validator  Hash (binary add) on message, GPS date, salt..
-//    */
-//void formatRadioPackage(uint8_t *loopbackToData) {
-//  bool didIFire = true;
-//  bool didSomeoneElseFire = false;
-//  
-//  bool shouldITalkBack = false;
-//  uint8_t MyID = 1;
-//  uint8_t buttonPressed = 0b10000000;
-//  uint8_t targetID = 0b00000000; // unknown
-//  
-//  if(didIFire) {
-//    loopbackToData[0] = 0b00000001;
-//    loopbackToData[8] = targetID; // send unknown    
-//  } else if(didSomeoneElseFire && shouldITalkBack) {
-//    loopbackToData[0] = 0b00000010;
-//    loopbackToData[8] |= whoWasItThatTalkedToMe() << 4;
-//    loopbackToData[8] |= wasIHit();
-//  }
-//  loopbackToData[0] |= MyID << 4;
-//
-//  doGPS(10); // must have a gps - wait up to 10 seconds
-//
-//  // maybe we should make a function for lat lng encoding that doesnt put them to lorawan
-//  const double shift_lat     =    90. * 10000000.;                 // range shift from -90..90 into 0..180, note: 
-//                                                                 //      NMEAGPS long lat&lon are degree values * 10.000.000
-//                                                                 //      TynyGPS long lat&lon are degree values * 1.000.000
-//  const double max_old_lat   =   180. * 10000000.;                 // max value for lat is now 180
-//  const double max_3byte     =         16777215.;                   // max value that fits in 3 bytes
-//  double lat_DOUBLE         = l_lat;                              // put 4byte LONG into a more precise floating point to prevent rounding during calcs 
-//  lat_DOUBLE = (lat_DOUBLE + shift_lat) * max_3byte / max_old_lat; // rescale into 3 byte integer range
-//  uint32_t LatitudeBinary  = lat_DOUBLE;                          // clips off anything after the decimal point    
-//  const double shift_lon     =   180. * 10000000.;                 // range shift from -180..180 into 0..360
-//  const double max_old_lon   = 360. * 10000000.;                   // max value longitude is now 360, note the value is too big for Long type
-//  double lon_DOUBLE = l_lon;                                      // put the 4byte LONG into a precise floating point memory space
-//  lon_DOUBLE = (lon_DOUBLE + shift_lon) * max_3byte / max_old_lon; // rescale into 3 byte integer range
-//  uint32_t LongitudeBinary = lon_DOUBLE;                          // clips off anything after the decimal point  
-//
-//  loopbackToData[1] = ( LatitudeBinary >> 16 ) & 0xFF;
-//  loopbackToData[2] = ( LatitudeBinary >> 8 ) & 0xFF;
-//  loopbackToData[3] = LatitudeBinary & 0xFF;
-//  loopbackToData[4] = ( LongitudeBinary >> 16 ) & 0xFF;
-//  loopbackToData[5] = ( LongitudeBinary >> 8 ) & 0xFF;
-//  loopbackToData[6] = LongitudeBinary & 0xFF;
-//
-//  // maybe we should make a function for compass encoding that doesnt put them to lorawan
-//  long compass = readCompass(); // 0..360 deg
-//  uint8_t compass_bin = compass/3 ;  // rescale 0-360 deg into 0 - 120 values and make sure it is not bigger than one byte
-//  // now add a bit for BTN (not implemented)
-//  loopbackToData[7] = compass_bin;
-//  #ifdef DEBUG
-//  Serial.print(F("  compass=")); Serial.print(compass); Serial.print(F("  deg. compass_bin=")); Serial.println(compass_bin);
-//  #endif
-//
-//  loopbackToData[7] |= buttonPressed;
-//
-//  loopbackToData[9] = 0x00; // What is this?
-//}
-///*
-//   byte 0          My ID      My ID and message type
-//        0b0000 0000            
-//          ---- nnnn MessType   
-//          ---- 0001 msg#1      Yelling out loud that I have fired
-//          ---- 0010 msg#2      You have fired and here is my answer 
-//          nnnn ---- MyID       
-//    byte 1, 2, 3    MyLat      
-//    byte 4, 5, 6    MyLon      
-//    byte 7          MyComp ++   
-//        0b0000 0000            
-//          -nnn nnnn MyComp     
-//          1--- ---- MyBtn#1       
-//    byte 8          RemoteID   Your ID, hey I am talkming to you
-//        0b0000 0000            
-//          ---- ---n WasIhit    Hit indicator
-//          nnnn ---- RemoteID   Value 0-31, Remote team ID
-//    byte 9          Validator  Hash (binary add) on message, GPS date, salt..
-//    */
-//void decodeReply(uint8_t buf[], bool debugToSerial) {
-//  if(debugToSerial) {
-//    #ifdef DEBUGRADIO
-//    // bytes 0
-//    if((buf[0] & 0b00001111) == 0b00000001) {
-//      Serial.println(F("Radio: Someone says that he fired"));
-//    } else if((buf[0] & 0b00001111) == 0b00000010) {
-//        Serial.println(F("Radio: Someone talkes back to someone who fired"));
-//    }
-//    Serial.print(F("That someone has an id of:"));
-//    uint8_t id = (buf[0] >> 4) & 0b00001111;
-//    Serial.println((int) id,DEC);
-//    
-//    // byte 1,2,3 and 4,5,6
-//    Serial.print(F("His location is: "));
-//    
-//    float _lat = ((((uint32_t)buf[1]) << 16) + (((uint32_t)buf[2]) << 8) + buf[3]) / 16777215.0 * 180.0 - 90;
-//    float _lng = ((((uint32_t)buf[4]) << 16) + (((uint32_t)buf[5]) << 8) + buf[6]) / 16777215.0 * 360.0 - 180;
-//    Serial.print(F("lat: "));
-//    Serial.print(_lat);
-//    Serial.print(F("lng: "));
-//    Serial.println(_lng);
-//
-//    // byte 7
-//    uint8_t compass = buf[7] & 0b01111111; // don't want the hit indicator now
-//    Serial.print(F("His compass points to: "));
-//    int _compass = (compass & 127)*3;
-//    Serial.println(_compass);
-//
-//    bool hePressedHisButton = ((buf[7] >> 7) & 0b00000001) == 0b00000001;
-//    if(hePressedHisButton) Serial.println(F("He pressed his button"));
-//    else Serial.println(F("He did not press his button"));
-//
-//    // byte 8
-//    bool heWasHit = (buf[8] & 0b00000001) == 0b00000001;
-//    if(heWasHit) Serial.println(F("He was hit"));
-//    else Serial.println(F("He was not hit - or doesn't know it yet"));
-//
-//    uint8_t remoteid = (buf[8] >> 4) & 0b00001111;
-//    Serial.println(F("He was talking to id: "));
-//    Serial.print((int)remoteid,DEC);
-//
-//    // byte 9 - what is this?
-//    #endif
-//  }
-//}
-//uint8_t whoWasItThatTalkedToMe() {
-//  uint8_t who = 2; // 2 talks to me
-//  return who;
-//}
-//uint8_t wasIHit() {
-//  uint8_t hit = 0b00000001; // yes i was hit
-//  return hit;
-//}
 
 ///////////////////////////////////////////////
 //  some other measurements
@@ -1168,6 +883,7 @@ long readCompass() {
   #endif
   return headingDegrees;
 }
+
 ///////////////////////////////////////////////
 //  arduino init and main
 ///////////////////////////////////////////
@@ -1197,7 +913,7 @@ void setup() {
   put_Compass_and_Btn_into_sendbuffer();
   //put_BME_into_sendbuffer();
   doGPS_and_put_values_into_sendbuffer(); 
-  myLoraWanData[22] = MY_GAME_ID << 4 | 1; 
+  //myLoraWanData[22] = MY_GAME_ID << 4 | 1; 
      
   //#ifdef DEBUGLEVEL2
   Serial.print(F("  Send one lorawan message as part of init. t=")); Serial.println(millis());
@@ -1219,55 +935,6 @@ void loop() {
   Serial.print(F("\n==== Loop starts. t=")); Serial.println(millis());
   digitalWrite(LEDPIN, !digitalRead(LEDPIN)); 
 
-  ////// GPS pre-loop //////////////
-  // Serial.println(F("  No lengthy GPS read-till-fix is needed, the GPS will find/keep a fix as log as power is on. "));
-
-
-//  unsigned long gps_listen_startTime = millis(); 
-//  unsigned long gps_timeout = 3;  // sec
-//  
-//  int times_without_char=0;
-//  while((millis() - gps_listen_startTime) < (gps_timeout * 1000L)) {
-//    // for debugging
-//    if (ss.available()) {
-//      char c = ss.read();
-//      Serial.write(c);
-//    }
-//    if(times_without_char++>30 && times_without_char<60) Serial.write(".");
-//  }
-//  Serial.println();
-
-
-#ifdef doradio
-  ////////// Radio  ///////////
-  #ifdef DEBUGLEVEL2
-  Serial.print(F("  Radio listen? t=")); Serial.println(millis());
-  #endif
-  // now listen a long time for a radio message which we may want to act on, or for a keypress on our side 
-  // time needs to be long enough not to miss a radio, we do not worry about GPS as it will keep fix as long as powered
-  if(radioActive) {
-    Radio_init();
-    while((millis() - last_lora_time) < (LORAWAN_TX_INTERVAL_MAX * 1000L)) {
-    // next command is not what we want to do
-    doOneRadio();  // sends a radio message and will listen for return message for a certain time
-    delay(5000);
-    }
-    /*if(ReceivedFromRadio) {
-      // use the radio message content for Lora
-      memcpy(myLoraWanData,buf,PAYLOADSIZE);
-      ReceivedFromRadio = false;
-    } else {
-      sprintf(myLoraWanData,"xx geen radio ontvangen xx");
-    } */ 
-  } else {
-    //not listening to radio at all, we may as well use delay for a bit 
-    #ifdef DEBUGLEVEL2
-    Serial.println(F("  No radio listen required. We will need to wait. ")); 
-    #endif
-  }
-  // we keep doing this part until it is time to send one LORAWAN TX to the world
-#endif 
-
   // nothing more to do, need to delay till next send time/action time
   while((millis() - last_check_time) < (LORAWAN_TX_INTERVAL_MIN * 1000L)) {
     delay(5000);   
@@ -1280,7 +947,7 @@ void loop() {
   put_Volts_and_Temp_into_sendbuffer();
   put_Compass_and_Btn_into_sendbuffer();
   //put_BME_into_sendbuffer();
-  myLoraWanData[22] = MY_GAME_ID << 4 | 1; 
+  //myLoraWanData[22] = MY_GAME_ID << 4 | 1; 
 
   uint32_t LoraWan_Counter = LMIC_getSeqnoUp();  // getCounter zit NIET in LMIC_slim library
   myLoraWanData[23] = LoraWan_Counter >> 8; 
