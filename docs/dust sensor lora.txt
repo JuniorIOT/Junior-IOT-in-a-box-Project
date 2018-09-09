@@ -1,0 +1,49 @@
+Pin mapping for Lora32u4
+    -----------------------------------------------------------------------------
+
+                                                   Groove ==> SCL SDA  V  GND
+                                            GY-91 ==> Vin GND SCL SDA
+                                          HMC5983 ==> Vin GND SCL SDA
+                                          GY-BMEP ==> Vin GND SCL SDA
+                                                       ¦   ¦   ¦   ¦
+  GPS BN-180/BN-200/BN-220 ==> (batt) VCC RX  TX GND   ¦   ¦   ¦   ¦
+                                           ¦   ¦       ¦   ¦   ¦   ¦
+       +---------+                         ¦   ¦       ¦   ¦   ¦   ¦
+       ¦   LiPo  ¦                         ¦   ¦       ¦   ¦   ¦   ¦
+       ¦ 380 mAh ¦                         ¦   ¦       ¦   ¦   ¦   ¦
+       ¦protected¦                         ¦   ¦       ¦   ¦   ¦   ¦
+       +---------+                       tx¦ rx¦ Vbat/2¦   ¦   ¦I2c¦        
+   +--------¦--¦--- ---+---X---+---X---X---+---+---+---X---X---+---+-------+ 
+   ¦        -  +      BAT EN  5V  13  12  11  10   9   6   5   3   2       ¦ 
+   ¦    (LIPO CONN)              LED  A1      A10  A9  A7     SCL SDA      ¦ 
+   ¦                           +------+            +----------------+ DIO3 R 
+   ¦(USB CONN)        LORA32U4 ¦ATMEGA¦            ¦ RFM95 / HDP13  ¦ DIO2 R 
+   ¦                           ¦ 32U4 ¦            ¦4=rst 7=irq 8=cs¦      ¦ 
+   ¦   (RST BTN)               +------+            +----------------+ ant(0)-
+   ¦                                          15  16                       ¦ 
+   ¦  RST 3V3 REF GND  A0  A1  A2  A3  A4 A5 SCK MOSI MISO 0   1 DIO1  ANT +
+   +---+---+---+---+---+---+---+---X---X---X---R---R---R---+---+---R-------+
+           ¦      GND  ¦   ?   ?   ¦           xxx xxx xxx  rx tx       
+          3V3      ¦   ¦   ¦   ¦   ¦           SPI-RFM95  serial1      
+                   ¦   ¦   ¦   ¦   ¦                       ¦   ¦
+                   ¦   ¦   ¦   ¦   ¦                       ¦   ¦
+       Switch ==> GND out  ¦   ¦   ¦                       ¦   ¦
+                           ¦   ¦   ¦        MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
+                           ¦   ¦   ¦                       
+    SDS021= hole 5V nc GND Rx  Tx  ¦                       
+                                   ¦                       
+                                   ¦                       
+                     TEMT6000 ==> OUT                      
+                                  GND                            
+                                  VCC                                          
+    GND BAT  
+      ¦   ¦
+    +-+---+-+ 
+    ¦gnd Vin¦ 
+    ¦step-up¦ 
+    ¦GND 5V ¦
+    +-+---+-+
+       
+   * R = pins connected to RFM95
+   * X = avoid main function on these pins for compatibility with 32u4 Beetle
+   * for pushbutton to work, need to enable the internal pull-up

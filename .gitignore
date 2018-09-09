@@ -1,0 +1,6 @@
+#
+# this is a comment line
+#
+
+# A leading "**" followed by a slash means match in all directories. For example, "**/foo" matches file or directory "foo" anywhere
+**/keys.h
