@@ -6,15 +6,14 @@ previous version:
 Inexpensive low-quality Lora32u4 GPS tracker for #juniorIOTchallenge and JuniorIOTinabox
 
 ## Inexpensive low-quality Lora32u4 GPS tracker
-```                
-  a newer iteration 2017 is for the Junior IoT Baloon Challenge february 2018
+  this version has evolved for the IOT in a box, and also to be a match for many applications
+    https://github.com/JuniorIOT/Junior-IOT-in-a-box-Project
+  iteration 2017 is for the Junior IoT Baloon Challenge february 2018
     https://github.com/Kaasfabriek/Junior_Internet_of_Things_2018
-  the original iteration in 2016 was created for the Junior IoT Baloon Challenge february 2017
+  original iteration in 2016 was created for the Junior IoT Baloon Challenge february 2017
     so for a basic Lora location transmittor with GPS, arduino nano and rfm95 see 
     https://github.com/Kaasfabriek/GPS-Lora-Balloon-rfm95-TinyGPS/tree/master/Balloon-rfm95
 
-
-```
 Credits:
 - Software plakker: Dennis --> dennis.ruigrok@gmail.com
 - Educatie kletser: Marco --> marco@junioriot.nl
@@ -43,12 +42,13 @@ Credits:
                                           GY-BMEP ==> Vin GND SCL SDA
                                                        ¦   ¦   ¦   ¦
   GPS BN-180/BN-200/BN-220 ==> (batt) VCC RX  TX GND   ¦   ¦   ¦   ¦
-                                           ¦   ¦       ¦   ¦   ¦   ¦
-       +---------+                         ¦   ¦       ¦   ¦   ¦   ¦
-       ¦   LiPo  ¦                         ¦   ¦       ¦   ¦   ¦   ¦
+                                       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦
+       +---------+                    red gre whi bla  ¦   ¦   ¦   ¦
+       ¦   LiPo  ¦                     ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦
        ¦ 380 mAh ¦                         ¦   ¦       ¦   ¦   ¦   ¦
        ¦protected¦                         ¦   ¦       ¦   ¦   ¦   ¦
-       +---------+                       tx¦ rx¦ Vbat/2¦   ¦   ¦I2c¦        
+       +---------+                         ¦   ¦       ¦   ¦   ¦   ¦
+            ¦  ¦                         tx¦ rx¦ Vbat/2¦   ¦   ¦I2c¦        
    +--------¦--¦--- ---+---X---+---X---X---+---+---+---X---X---+---+-------+ 
    ¦        -  +      BAT EN  5V  13  12  11  10   9   6   5   3   2       ¦ 
    ¦    (LIPO CONN)              LED  A1      A10  A9  A7     SCL SDA      ¦ 
@@ -58,16 +58,20 @@ Credits:
    ¦   (RST BTN)               +------+            +----------------+ ant(0)-
    ¦                                          15  16                       ¦ 
    ¦  RST 3V3 REF GND  A0  A1  A2  A3  A4 A5 SCK MOSI MISO 0   1 DIO1  ANT +
-   +---+---+---+---+---+---+---+---X---X---X---R---R---R---+---+---R-------+
+   +---+--=+===+===+===+=--+---+---X---X---X---R---R---R---+---+---R-------+
            ¦      GND  ¦   ?   ?   ¦           xxx xxx xxx  rx tx       
-          3V3      ¦   ¦   ¦   ¦   ¦           SPI-RFM95  serial1      
+           ¦       ¦   ¦   ¦   ¦   ¦           SPI-RFM95  serial1      
+           ¦       ¦   ¦   ¦   ¦   ¦                       ¦   ¦
                    ¦   ¦   ¦   ¦   ¦                       ¦   ¦
                    ¦   ¦   ¦   ¦   ¦                       ¦   ¦
        Switch ==> GND out  ¦   ¦   ¦                       ¦   ¦   ¦   ¦ 
                            ¦   ¦   ¦        MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
-                           ¦   ¦   ¦                       
+                 ¦     ¦   ¦   ¦   ¦                       
+                red   bla yel blu  ¦                       
+                 ¦     ¦   ¦   ¦   ¦                       
     SDS021= hole 5V nc GND Rx  Tx  ¦                       
                                    ¦                       
+                                  whi gre red                      
                                    ¦   ¦   ¦                       
                      TEMT6000 ==> OUT GND VCC                                          
     GND BAT  
