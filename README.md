@@ -61,15 +61,16 @@ Credits:
    +---+--=+===+===+===+=--+---+---X---X---X---R---R---R---+---+---R-------+
            ¦      GND  ¦   ?   ?   ¦           xxx xxx xxx  rx tx       
            ¦       ¦   ¦   ¦   ¦   ¦           SPI-RFM95  serial1      
-           ¦       ¦   ¦   ¦   ¦   ¦                       ¦   ¦
+          ...     ...  ¦   ¦   ¦   ¦                       ¦   ¦ 
                    ¦   ¦   ¦   ¦   ¦                       ¦   ¦
-                   ¦   ¦   ¦   ¦   ¦                       ¦   ¦
-       Switch ==> GND out  ¦   ¦   ¦                       ¦   ¦   ¦   ¦ 
+                  GND out  ¦   ¦   ¦                       ¦   ¦
+                  pushBtn  ¦   ¦   ¦                       ¦   ¦
+                           ¦   ¦   ¦                       ¦   ¦   ¦   ¦ 
                            ¦   ¦   ¦        MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
                  ¦     ¦   ¦   ¦   ¦                       
                 red   bla yel blu  ¦                       
                  ¦     ¦   ¦   ¦   ¦                       
-    SDS021= hole 5V nc GND Rx  Tx  ¦                       
+  SDS021==> hole 5V nc GND Rx  Tx  ¦                       
                                    ¦                       
                                   whi gre red                      
                                    ¦   ¦   ¦                       
