@@ -49,12 +49,12 @@ Credits:
    ¦                                          15  16                       ¦ 
    ¦  RST 3V3 REF GND  A0  A1  A2  A3  A4 A5 SCK MOSI MISO 0   1 DIO1  ANT +
    +---+--=+===+===+===+=--+---+---X---X---X---R---R---R---+---+---R-------+
-           ¦      GND  ¦   ?   ?   ¦           xxx xxx xxx  rx tx       
-           ¦       ¦   ¦   ¦   ¦   ¦           SPI-RFM95  serial1      
-          ...     ...  ¦   ¦   ¦   ¦                       ¦   ¦ 
-                   ¦   ¦   ¦   ¦   ¦                       ¦   ¦
-                  GND out  ¦   ¦   ¦                       ¦   ¦
-                  pushBtn  ¦   ¦   ¦                       ¦   ¦
+           ¦      GND  ¦   ?   ?   ¦   ¦   ¦   xxx xxx xxx  rx tx       
+           ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦  SPI-RFM95  serial1      
+          ...     ...  ¦   ¦   ¦   ¦   ¦   ¦               ¦   ¦ 
+                   ¦   ¦   ¦   ¦   ¦   ¦ (A5 analog read)  ¦   ¦
+                  GND out  ¦   ¦   ¦   ¦                   ¦   ¦
+                  pushBtn  ¦   ¦   ¦ (A4 analog read)      ¦   ¦
                            ¦   ¦   ¦                       ¦   ¦   ¦   ¦ 
                            ¦   ¦   ¦        MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
                  ¦     ¦   ¦   ¦   ¦                       
@@ -91,10 +91,11 @@ Credits:
     byte 6, 7       Altitude   2 bytes, in meters. 0..65025 meter
     byte 8          GPS DoP    byte, in 0.1 values. 0..25.5 DoP 
     
-    -- phased out
-    byte 9, 10, 11  
-    byte 12, 13, 14 
-    byte 15, 16     
+    -- new
+    byte 9, 10      10 bit analog read from A0 = Pushbutton  0..1023
+	byte 11, 12     10 bit analog read from A3 = TEMT6000  0..1023 
+    byte 13, 14     10 bit analog read from A4  0..1023 
+    byte 15, 16     10 bit analog read from A5  0..1023 
     byte 17            
                                
     -- now our 'regular' values
@@ -111,11 +112,9 @@ Credits:
     byte 22         phased out
     byte 23,24      Temperature 2 bytes  (was: counter, 2 bytes)
 	                     
-    -- phased out
-    byte 25         
-    byte 26, 27, 28 
-    byte 29, 30, 31 
-    byte 32         
+    -- new
+    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+    byte 29, 30, 31, 32 DateTime btn off
     byte 33         
 		
     -- OPTIONAL set environmental sensors values ((leave 00 if not used)
