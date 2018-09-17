@@ -1,0 +1,108 @@
+function Decoder (bytes) {
+  var _lat = (bytes[0] << 16 | bytes[1] << 8 | bytes[2]) / 16777215.0 * 180.0 - 90;
+  var _lng = (bytes[3] << 16 | bytes[4] << 8 | bytes[5]) / 16777215.0 * 360.0 - 180;
+  var _alt = (bytes[6] << 8) + bytes[7];
+  var _hdop = bytes[8] / 10.0;
+  _lat = _lat.toFixed(6);
+  if (_lat > -0.001 && _lat < 0.001) {_lat=0}
+  _lng = _lng.toFixed(6);
+  if (_lng > -0.001 && _lng < 0.001) {_lng=0}
+
+
+  var _A0 = ( bytes[9] << 8 | bytes[10]);
+  var _A0Btn = 0;
+  if (_A0 > 100) {_myBtn = 1};
+  var _A3 = ( bytes[11] << 8 | bytes[12]);
+  var _A4 = ( bytes[13] << 8 | bytes[14]);
+  var _A5 = ( bytes[15] << 8 | bytes[16]);
+  // byte 17 spare            
+
+//    unsigned long datetime_A0on = y << 26 | mo << 22 | d << 17 | h << 12 | m < 6 | s ;
+//         // 4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+////    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+  var _A0on_dt = (bytes[25] << 24 | bytes[26] << 16 | bytes[27] << 8 | bytes[28])
+  var _A0on_y = ( _A0on_dt >> 26 ) + 2000;
+  var _A0on_mo =( _A0on_dt >> 22 ) & 15;
+  var _A0on_d = ( _A0on_dt >> 17 ) & 31;
+  var _A0on_h = ( _A0on_dt >> 12 ) & 31;
+  var _A0on_m = ( _A0on_dt >> 6  ) & 63;
+  var _A0on_s = ( _A0on_dt       ) & 63;
+  var _A0on = "" + _A0on_y + "-" +
+      (_A0on_mo<10?'0':'') + _A0on_mo + "-" + 
+      (_A0on_d<10?'0':'') + _A0on_d + " " + 
+      (_A0on_h<10?'0':'') + _A0on_h + ":" + 
+      (_A0on_m<10?'0':'') + _A0on_m + ":" + 
+      (_A0on_s<10?'0':'') + _A0on_s + ""
+
+////    byte 29, 30, 31, 32 DateTime btn off
+  var _A0off_dt = (bytes[29] << 24 | bytes[30] << 16 | bytes[31] << 8 | bytes[32])
+  var _A0off_y = ( _A0off_dt >> 26 ) + 2000;
+  var _A0off_mo =( _A0off_dt >> 22 ) & 15;
+  var _A0off_d = ( _A0off_dt >> 17 ) & 31;
+  var _A0off_h = ( _A0off_dt >> 12 ) & 31;
+  var _A0off_m = ( _A0off_dt >> 6  ) & 63;
+  var _A0off_s = ( _A0off_dt       ) & 63;
+  var _A0off = "" + _A0off_y + "-" +
+      (_A0off_mo<10?'0':'') + _A0off_mo + "-" + 
+      (_A0off_d<10?'0':'') + _A0off_d + " " + 
+      (_A0off_h<10?'0':'') + _A0off_h + ":" + 
+      (_A0off_m<10?'0':'') + _A0off_m + ":" + 
+      (_A0off_s<10?'0':'') + _A0off_s + ""
+
+
+  var _VCC = bytes[18] / 50.0;
+  var _tempCPU = bytes[19] -100;
+  var _Vbat = bytes[20] / 50.0;
+  var _compass = (bytes[21] && 127) * 3;
+  //var _myBtn = bytes[21] >> 7;
+
+  var _myID = bytes[22] >> 4;
+  //var _dataSetType = bytes[22] & 15;
+  //var _counter =  bytes[23] << 8 | bytes[24];  --> no we now use this for temp
+     
+  var _inputHEX = bytes.map(function(b) { return ('0' + b.toString(16)).substr(-2);}).join(' ');
+
+// if _dataSetType = 0001 my game data
+  
+  var _pm25 = -1.0;
+  if(bytes.length>=41) _pm25 = (bytes[40] << 8 | bytes[41]) / 10.0;
+  var _pm10 = -1.0;
+  if(bytes.length>=43) _pm10 = (bytes[42] << 8 | bytes[43]) / 10.0;
+  
+  var _temp = (bytes[23] << 8 | bytes[24]) / 100.0;
+  var _moist = -1.0;
+  if(bytes.length>=35) _moist = (bytes[34] << 8 | bytes[35]) / 500.0;
+  
+  
+
+  return {
+    arduino_VCC: _VCC,
+    arduino_Vbat: _Vbat,
+    arduino_tempCPU: _tempCPU,
+    A0: _A0,
+    A0Btn: _A0Btn,
+    A0on: _A0on,
+    A0on_dt: _A0on_dt,
+    A0off: _A0off,
+    A0off_dt: _A0off_dt,
+    A3: _A3,
+    light: _A3,
+    A4: _A4,
+    A5: _A5,
+    //myID: _myID,
+    //dataSetType: _dataSetType,
+    gps_lat: _lat,
+    gps_lng: _lng,
+    gps_alt: _alt,
+    gps_hdop: _hdop,
+
+    pm10: _pm10,
+    pm25: _pm25,
+    moist: _moist,
+    temp: _temp,
+    tempCPU: _tempCPU,
+
+    payload: _inputHEX,
+    bytes_length: bytes.length
+  };
+}
