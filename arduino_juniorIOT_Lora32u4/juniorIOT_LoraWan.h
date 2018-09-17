@@ -52,75 +52,52 @@ void lmic_slim_init() {
   delay(10);
   radio_init();  // that is in the LMIC_slim library
   delay(10);
-
-
   
-//  static const PROGMEM uint8_t NWKSKEY[16] = { 0xA9, 0x6E, 0x35, 0xEA, 0x88, 0x06, 0x3B, 0x6F, 0x17, 0x85, 0xD3, 0xB1, 0x8E, 0x0A, 0xE5, 0xF1 };
-//  static const uint8_t PROGMEM APPSKEY[16] =  { 0x11, 0x84, 0xFD, 0x28, 0x17, 0x0B, 0x57, 0x44, 0x26, 0x47, 0xD6, 0x87, 0x70, 0xEA, 0x36, 0x88 };
-//  static const uint32_t DEVADDR = 26011922x;
-
-//Device Address  msb        { 0x26, 0x01, 0x19, 0x22 }
-//Network Session Key  msb   { 0xA9, 0x6E, 0x35, 0xEA, 0x88, 0x06, 0x3B, 0x6F, 0x17, 0x85, 0xD3, 0xB1, 0x8E, 0x0A, 0xE5, 0xF1 }
-//App Session Key  msb       { 0x11, 0x84, 0xFD, 0x28, 0x17, 0x0B, 0x57, 0x44, 0x26, 0x47, 0xD6, 0x87, 0x70, 0xEA, 0x36, 0x88 }
-
-
-//const char *devAddr = "26011922";
-//const char *nwkSKey = "A96E35EA88063B6F1785D3B18E0AE5F1";
-//const char *appSKey = "1184FD28170B57442647D68770EA3688";
-
-//  uint8_t appskey[sizeof(APPSKEY)];
-//  uint8_t nwkskey[sizeof(NWKSKEY)];
-  uint8_t appskey[16];
-  uint8_t nwkskey[16];
-  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));   
- // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
+  //  uint8_t nwkskey[sizeof(NWKSKEY)];
+  uint8_t nwkskey[16];  
+  // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
  
-char *p = nwkSKey;
-for(int i = 0; i < 16; i++){
-  char c1 = *p;
-  p++;
-  char c2 = *p;
-  p++;
-  uint8_t ui1 = charToHex(c1);
-  uint8_t ui2 = charToHex(c2);
-  uint8_t ui = ui1 << 4 | ui2;
-  nwkskey[i]=ui;
-  if(nwkskey[i]<16)Serial.print('0');
-  Serial.print(nwkskey[i], HEX);
-}
-Serial.println();
+  char *p = nwkSKey;
+  for(int i = 0; i < 16; i++){
+    char c1 = *p;
+    p++;
+    char c2 = *p;
+    p++;
+    uint8_t ui1 = charToHex(c1);
+    uint8_t ui2 = charToHex(c2);
+    uint8_t ui = ui1 << 4 | ui2;
+    nwkskey[i]=ui;
+    //if(nwkskey[i]<16)Serial.print('0');
+    //Serial.print(nwkskey[i], HEX);
+  }
+  //Serial.println();
 
-p = appSKey;
-for(int i = 0; i < 16; i++){
-  char c1 = *p;
-  p++;
-  char c2 = *p;
-  p++;
-  uint8_t ui1 = charToHex(c1);
-  uint8_t ui2 = charToHex(c2);
-  uint8_t ui = ui1 << 4 | ui2;
-  appskey[i]=ui;
-  if(appskey[i]<16)Serial.print('0');
-  Serial.print(appskey[i], HEX);
-}
-Serial.println();
+  //  uint8_t appskey[sizeof(APPSKEY)];
+  uint8_t appskey[16];
+  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY)); 
+  
+  p = appSKey;
+  for(int i = 0; i < 16; i++){
+    char c1 = *p;
+    p++;
+    char c2 = *p;
+    p++;
+    uint8_t ui1 = charToHex(c1);
+    uint8_t ui2 = charToHex(c2);
+    uint8_t ui = ui1 << 4 | ui2;
+    appskey[i]=ui;
+    //if(appskey[i]<16)Serial.print('0');
+    //Serial.print(appskey[i], HEX);
+  }
+  //Serial.println();
 
-p = devAddr;
-uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
-Serial.print(DEVADDR, HEX);Serial.print(" ");
-Serial.println();
-
-
-//delay(9999999);
-///---------------------
-
+  p = devAddr;
+  uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
+  Serial.print("  DEVADDR = ");
+  Serial.print(DEVADDR, HEX);Serial.print(" ");
+  Serial.println();
 
   LMIC_setSession (DEVADDR, nwkskey, appskey);
-
-
-
-
-  
   
   LMIC_LORARegModemConfig (0x72, 0b01110100, 0x04);  // LORARegModemConfig1, LORARegModemConfig2, LORARegModemConfig3
     // USE THESE SETS FOR CORRECT LORA SPEC:

@@ -59,7 +59,6 @@ void setup() {
   // initialize all sensors and things
   GPS_init();
   internals_init();
-  //  RFM95_radio_init();  --> no longer in use
   HMC5983_init();
   // BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
   
@@ -93,8 +92,8 @@ void loop() {
   ////////// Now CHECK IF we need to send a LORAWAN update to the world  ///////////
   // switch the LMIC antenna to LoraWan mode
   if ( (millis() - last_lora_time) > ((LORAWAN_TX_INTERVAL_MAX) * 1000L)
-      or (l_lat_movement > TXTRIGGER_gps_movement) 
-      or (l_lon_movement > TXTRIGGER_gps_movement) ) {
+      || (l_lat_movement > TXTRIGGER_gps_movement) 
+      || (l_lon_movement > TXTRIGGER_gps_movement) ) {
     Serial.print(F("   - - - - About to send one LoraWan. ")); 
     last_lora_time = millis();
     //lmic_slim_init();
