@@ -1,3 +1,6 @@
+
+// test for HMC5983 - I2C compass 
+
 #include <Wire.h> //I2C Arduino Library
 
 #define HMC5983_selector_for_X_byte0 0x03  
@@ -12,6 +15,7 @@ int HMC5983_Z_byte0, HMC5983_Z_byte1, HMC5983_Z_value;
 float X_milliGauss,Y_milliGauss,Z_milliGauss;
 float heading, headingDegrees, headingFiltered, geo_magnetic_declination_deg;
 #define IIC_HMC5983_address 0x1E //I2C 7bit address of HMC5883
+
 void setup(){
 
   //  HMC5983 first 4 pins are soldered to first 4 pins on lora32u4

@@ -6,30 +6,25 @@
 
 BME280 bme280;
 
-void readBME(){
-  
-  float pressure;
-  
+void readBME(){  
   //get and print temperatures
   Serial.print(F("BME280 Temp: "));
-  Serial.print(bme280.getTemperature());
-  Serial.println("C");  //The unit for  Celsius because original arduino don't support speical symbols
+  float bme280_temperature = bme280.getTemperature();
+  Serial.print(bme280_temperature);
+  Serial.println(" deg C");  //The unit for  Celsius because original arduino don't support speical symbols
   
   //get and print atmospheric pressure data
   Serial.print(F("BME280 Pressure: "));
-  Serial.print(pressure = bme280.getPressure());
-  Serial.println("Pa");
+  float bme280_pressure = bme280.getPressure();
+  Serial.print(bme280_pressure);
+  Serial.println(" Pa");
 
 //  //get and print altitude data
 //  Serial.print(F("BME280 Altitude: "));
-//  Serial.print(bme280.calcAltitude(pressure));
-//  Serial.println("m");
-
-  //get and print humidity data
   Serial.print(F("BME280 Humidity: "));
-  Serial.print(bme280.getHumidity());
+  float bme280_humidity = bme280.getHumidity();
+  Serial.print(bme280_humidity);
   Serial.println("%");
-
 }
 void put_BME_into_sendbuffer(){
   readBME();
