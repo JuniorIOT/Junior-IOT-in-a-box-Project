@@ -11,6 +11,7 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial mySerial(10, 11); // RX, TX
+//SoftwareSerial mySerial( 5, 6); // RX, TX
 
 void setup() {
   // Open serial communications and wait for port to open:
@@ -28,7 +29,7 @@ void setup() {
 
 void loop() { // run over and over
   if (mySerial.available()) {
-    Serial.write(mySerial.read());
+    Serial.print(mySerial.read(), HEX);
   }
   if (Serial.available()) {
     mySerial.write(Serial.read());

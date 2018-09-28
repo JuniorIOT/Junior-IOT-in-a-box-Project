@@ -32,40 +32,52 @@ Credits:
                                           GY-BMEP ==> Vin GND SCL SDA
                                                        ¦   ¦   ¦   ¦
                                                       red blk whi yel
+                                                       ¦   ¦   ¦   ¦
+                                                               ¦   ¦
+                                                               ¦   ¦
+                              SDS021==> hole 5V nc GND Rx  Tx  ¦   ¦
+                                             ¦     ¦   ¦   ¦   ¦   ¦
+                                            red   blk yel blu  ¦   ¦
+                                             ¦     ¦   ¦   ¦   ¦   ¦
+                                                       ¦   ¦   ¦   ¦
+                                                       ¦   ¦   ¦   ¦
   GPS BN-180/BN-200/BN-220 ==> (batt) VCC RX  TX GND   ¦   ¦   ¦   ¦
-                                       ¦   ¦   ¦   ¦           ¦   ¦
-         +---------+                  red gre whi blk          ¦   ¦
-         ¦   LiPo  ¦                   ¦   ¦   ¦   ¦           ¦   ¦
-         ¦ 380 mAh ¦                       ¦   ¦               ¦   ¦
-         ¦protected¦                       ¦   ¦               ¦   ¦
-         +---------+                       ¦   ¦               ¦   ¦
-            ¦  ¦                         tx¦ rx¦ Vbat/2        ¦I2c¦        
+                                       ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦
+         +---------+                  red gre whi blk  ¦   ¦   ¦   ¦
+         ¦   LiPo  ¦                   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦
+         ¦ 380 mAh ¦                       ¦   ¦       ¦   ¦   ¦   ¦
+         ¦protected¦                       ¦   ¦       ¦   ¦   ¦   ¦
+         +---------+                       ¦   ¦       ¦   ¦   ¦   ¦
+            ¦  ¦                         tx¦ rx¦ Vbat/2¦   ¦   ¦I2c¦        
    +--------¦--¦--- ---+---X---+---X---X---+---+---+---X---X---+---+-------+
    ¦        -  +      BAT EN  5V  13  12  11  10   9   6   5   3   2       ¦
-   ¦    (LIPO CONN)              LED  A1      A10  A9  A7     SCL SDA      ¦
+   ¦    (LIPO CONN)           USB LED A11     A10  A9  A7     SCL SDA      ¦
    ¦                           +------+            +----------------+ DIO3 R
    ¦(USB CONN)        LORA32U4 ¦ATMEGA¦            ¦ RFM95 / HDP13  ¦ DIO2 R
    ¦                           ¦ 32U4 ¦            ¦4=rst 7=irq 8=cs¦      ¦
    ¦   (RST BTN)               +------+            +----------------+ ant(0)-
-   ¦                                          15  16                       ¦
+   ¦                   18  19  20  21  22 23  15  16   14  RX  TX          ¦
    ¦  RST 3V3 REF GND  A0  A1  A2  A3  A4 A5 SCK MOSI MISO 0   1 DIO1  ANT +
    +---+--=+===+===+===+=--+---+---X---X---X---R---R---R---+---+---R-------+
-           ¦      GND  ¦   ?   ?   ¦   ¦   ¦   xxx xxx xxx  rx tx       
-           ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦  SPI-RFM95  serial1      
+           ¦      GND  ¦   ¦   ¦   ¦   ¦   ¦   xxx xxx xxx rx  tx       
+           ¦       ¦   ¦   ¦   ¦   ¦   ¦   ¦    SPI-RFM95  serial1      
           ...     ...  ¦   ¦   ¦   ¦   ¦   ¦               ¦   ¦
-                   ¦   ¦   ¦   ¦   ¦   ¦ (A5 analog read)  ¦   ¦
-                  GND out  ¦   ¦   ¦   ¦                   ¦   ¦
-                  pushBtn  ¦   ¦   ¦ (A4 analog read)      ¦   ¦
-                           ¦   ¦   ¦                       ¦   ¦   ¦   ¦
-                           ¦   ¦   ¦        MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
-                 ¦     ¦   ¦   ¦   ¦                       
-                red   blk yel blu  ¦                       
-                 ¦     ¦   ¦   ¦   ¦                       
-  SDS021==> hole 5V nc GND Rx  Tx  ¦                       
-                                   ¦                       
-                                  whi gre red                      
-                                   ¦   ¦   ¦                       
-                     TEMT6000 ==> OUT GND VCC                                          
+                   ¦   ¦   ¦   ¦   ¦   ¦   ¦               ¦   ¦
+                  GND out  ¦   ¦   ¦   ¦   ¦               ¦   ¦
+                  pushBtn  ¦   ¦   ¦   ¦   ¦               ¦   ¦
+                           ¦   ¦   ¦   ¦   ¦               ¦   ¦
+                           ¦   ¦   ¦   ¦   ¦               ¦   ¦
+                  red gre whi  ¦   ¦   ¦   ¦               ¦   ¦
+                   ¦   ¦   ¦   ¦   ¦   ¦   ¦               ¦   ¦
+     TEMT6000 ==> VCC GND OUT  ¦   ¦   ¦   ¦               ¦   ¦
+                               ¦   ¦   ¦   ¦               ¦   ¦
+                               ¦   ¦   ¦   ¦               ¦   ¦
+                          blk whi gra pur zzz              ¦   ¦
+                           ¦   ¦   ¦   ¦   ¦               ¦   ¦
+               LeoEQ7 ==> gnd res pul out mic              ¦   ¦      
+                                                           ¦   ¦   ¦   ¦
+                                            MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
+			 
     GND BAT  
       ¦   ¦
     +-+---+-+
@@ -91,40 +103,50 @@ Credits:
              2.5 m is about the GPS accuracy of 2..3 meters, so data format is efficient
     byte 6, 7       Altitude   2 bytes, in meters. 0..65025 meter
     byte 8          GPS DoP    byte, in 0.1 values. 0..25.5 DoP
+       
 
-    -- new
-    byte 9, 10      10 bit analog read from A0 = Pushbutton  0..1023
-	byte 11, 12     10 bit analog read from A3 = TEMT6000  0..1023
-    byte 13, 14     10 bit analog read from A4  0..1023
-    byte 15, 16     10 bit analog read from A5  0..1023
-    byte 17            
+    -- now our 'internal' values
+ 9   byte 18         VCC        byte, 50ths, 0 - 5.10 volt -- secret voltmeter
+ 10   byte 19         CPUtemp    byte, -100 - 155 deg C     -- secret thermometer +/- 10 degrees
+ 11   byte 20         Vbat       byte, 50ths, 0 - 5.10 volt -- hardwired Lora32u4
 
-    -- now our 'regular' values
-    byte 18         VCC        byte, 50ths, 0 - 5.10 volt -- secret voltmeter
-    byte 19         CPUtemp    byte, -100 - 155 deg C     -- secret thermometer +/- 10 degrees
-    byte 20         Vbat       byte, 50ths, 0 - 5.10 volt -- hardwired Lora32u4
-
-    byte 21         
+    -- A0 switch
+ 12, 13   byte 9, 10      10 bit analog read from A0 = Pushbutton  0..1023
+  14-17  byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+ 18-21   byte 29, 30, 31, 32 DateTime btn off
+	
+	-- A1 TEMT
+22, 23	byte 11, 12     10 bit analog read from A1 = TEMT6000  0..1023
+24, 25	    10 bit analog read from A11 
+    
+	
+ x   byte 21         
         0b0000 0000            
           -nnn nnnn Compass    0-120, My compass in 3 degree precision 0..360
                                Value=127: no compass value
           1--- ---- MyBtn#1    bit, is my button pressed
+    -- BME280
+26, 27    byte 23,24      BME280 Temperature 2 bytes  
+27, 29    byte 34, 35     BME280 Moisture   2 bytes, 
+30, 31    byte 36, 37     BME280 AirPress   2 bytes,
 
-    byte 22         phased out
-    byte 23,24      Temperature 2 bytes  (was: counter, 2 bytes)
+    -- SDS021	
+32, 33    byte 40, 41     SDS021 PPM 2.5    2 bytes, 
+34, 35    byte 42, 43     SDS021 PPM 10     2 bytes, 
 
-    -- new
-    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
-    byte 29, 30, 31, 32 DateTime btn off
-    byte 33         
+    -- MH-Z19 
+36, 37    byte 38, 39     MH-Z19 CO2        2 bytes, 
 
-    -- OPTIONAL set environmental sensors values ((leave 00 if not used)
-    byte 34, 35     Moisture   2 bytes, AD measurement directly from AD port
-    byte 36, 37     AirPress   2 bytes, AD measurement directly from AD port
-    byte 38, 39     CO2        2 bytes, AD measurement directly from AD port
-    byte 40, 41     PPM 2.5    2 bytes, AD measurement directly from AD port put_PM_into_sendbuffer
-    byte 42, 43     PPM 10     2 bytes, AD measurement directly from AD port
-    byte 44, 45     Audio 1    2 bytes
-    byte 46, 47     Audio 2    2 bytes
-
+    -- LeoEQ7
+38-47     Audio averages   10 bytes	
+	             Audio 1,     63Hz    10 bit analog read 0..1023
+                 Audio 2,    160Hz    10 bit analog read 0..1023
+	             Audio 3,    400Hz    10 bit analog read 0..1023
+	             Audio 4,  1.000Hz    10 bit analog read 0..1023
+	             Audio 5,  2.500Hz    10 bit analog read 0..1023
+	             Audio 6,  6.250Hz    10 bit analog read 0..1023
+                 Audio 7, 16.000Hz    10 bit analog read 0..1023
+                 Audio all            10 bit analog read 0..1023
+				
+48-57     Audio peak5   10 bytes	
 ```

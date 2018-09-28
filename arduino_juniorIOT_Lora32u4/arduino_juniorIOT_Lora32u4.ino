@@ -16,8 +16,8 @@
  
 
 
-#define PAYLOADSIZE 38 // The size of the package to be sent
-uint8_t  myLoraWanData[40];  // including byte[0]
+#define PAYLOADSIZE 58 // The size of the package to be sent
+uint8_t  myLoraWanData[60];  // including byte[0]
 //bool has_sent_allready = false; 
 unsigned long datetime_gps=0;
 

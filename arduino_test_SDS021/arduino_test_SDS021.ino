@@ -1,25 +1,26 @@
 
 // test for SDS021 Particle Matter sensor
-//
-//       THIS TEST PROGRAM NEEDS DEBUGGING - NOT WORKING
-//
+// 1. MUST HAVE 5 VOLTS ON POWER, not working with standard 3.3V from Lora32u4
+// 2. Softwareserial or NeoSW does work on selected pins only
 
+//       THIS TEST PROGRAM NEEDS DEBUGGING - NOT WORKING
 /*
   Reading bytes from SDS021 Air Quality PM2.5/10 Particle Sensor
   By: Nathan Seidle
   SparkFun Electronics
   Date: May 8th, 2017
   License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
-
   This example shows how to read the PM2.5 and PM10 readings from the sensor
 */
 
-#define pin_PM_TXD_rx A2  // SDS021 TXD is connected to A2
-#define pin_PM_RXD_tx A1
+#define pin_PM_TXD_rx 19 
+#define pin_PM_RXD_tx 20  
+// SDS021 TXD is connected to A2 = digitaal 20
+// SDS021 RXD is connected to A1 = digitaal 19
 
 #include <SoftwareSerial.h>
 
-SoftwareSerial pm_serial(A1, A2); // RX, TX
+SoftwareSerial pm_serial( pin_PM_TXD_rx, pin_PM_RXD_tx); // RX, TX
 
 float pm25; //2.5um particles detected in ug/m3
 float pm10; //10um particles detected in ug/m3

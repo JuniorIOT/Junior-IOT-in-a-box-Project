@@ -113,17 +113,23 @@ long readVbat() {
 void put_AnalogReads_into_sendbuffer() {
 
   // A0 = BTN
-  // A3 = TEMT6000
+  // A1 = TEMT6000
+  // A2
+  // A3
   // A4
   // A5
   
   int A0Value = analogRead(A0);
   delay(1);
-  int A3Value = analogRead(A3);
-  delay(1);
-  int A4Value = analogRead(A4);
-  delay(1);
-  int A5Value = analogRead(A5);
+  int A1Value = analogRead(A1);
+//  delay(1);
+//  int A2Value = analogRead(A2);
+//  delay(1);
+//  int A3Value = analogRead(A3);
+//  delay(1);
+//  int A4Value = analogRead(A4);
+//  delay(1);
+//  int A5Value = analogRead(A5);
   
   // now add a bit for BTN 
   uint8_t myBtn = 0;  
@@ -158,23 +164,27 @@ void put_AnalogReads_into_sendbuffer() {
   Serial.print(F("    datetime_gps="));
   print_encoded_dt( datetime_gps);
   
-  Serial.print(F("  TEMT A3Value="));
-  Serial.print( A3Value);
-  Serial.print(F("  A4Value="));
-  Serial.print( A4Value);
-  Serial.print(F("  A5Value="));
-  Serial.print( A5Value);
-  Serial.println();
+  Serial.print(F("  TEMT A1Value="));
+  Serial.print( A1Value);
+//  Serial.print(F("  A2Value="));
+//  Serial.print( A2Value);
+//  Serial.print(F("  A3Value="));
+//  Serial.print( A3Value);
+//  Serial.print(F("  A4Value="));
+//  Serial.print( A4Value);
+//  Serial.print(F("  A5Value="));
+//  Serial.print( A5Value);
+//  Serial.println();
 
 
   myLoraWanData[9] = A0Value >> 8;
-  myLoraWanData[10] = A0Value;
-  myLoraWanData[11] = A3Value >> 8;
-  myLoraWanData[12] = A3Value;
-  myLoraWanData[13] = A4Value >> 8;
-  myLoraWanData[14] = A4Value;
-  myLoraWanData[15] = A5Value >> 8;
-  myLoraWanData[16] = A5Value;
+  myLoraWanData[10] = A0Value;Value >> 8;
+//  myLoraWanData[14] = A2Value;
+//  myLoraWanData[15] = A3Value >> 8;
+//  myLoraWanData[16] = A3Va
+  myLoraWanData[11] = A1Value >> 8;
+  myLoraWanData[12] = A1Value;
+//  myLoraWanData[13] = A2lue;
               
   //    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
   myLoraWanData[25] = datetime_BtnOn >>24; 
