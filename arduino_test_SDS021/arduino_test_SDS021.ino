@@ -21,7 +21,7 @@
 //    Not all pins on the Leonardo and Micro support change interrupts, so only the following can be used for RX: 
 // 8, 9, 10, 11, 14 (MISO), 15 (SCK), 16 (MOSI).
 #define pin_PM_TXD_rx 9 // must be one of above
-#define pin_PM_RXD_tx 6 // can be any. my wire was just soldered on 6 at the time.
+#define pin_PM_RXD_tx A2 // can be any. my wire was just soldered on 6 at the time.
 
 #include <SoftwareSerial.h>
 
@@ -241,9 +241,15 @@ void setup() {
 }
 
 void loop() {
+  pm_getFirmwareVersion(); // testing send
+  delay(1000);
 
   pm_measure();
   
   delay(1000);
+  pm_goToSleep(); // testing sleep
+  delay(1000);
+  pm_wakeUp(); // and wake up
+  delay(1000); 
 }
 
