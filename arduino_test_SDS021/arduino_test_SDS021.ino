@@ -14,12 +14,18 @@
   This example shows how to read the PM2.5 and PM10 readings from the sensor
 */
 
-#define pin_PM_TXD_rx A2  // SDS021 TXD is connected to A2
-#define pin_PM_RXD_tx A1
+//The Arduino documentation for Leonardo/Micro boards applies to the Feather 32U4. So we only need to consult the SoftwareSerial library's documentation:
+//https://www.arduino.cc/en/Reference/SoftwareSerial
+//Quote
+//
+//    Not all pins on the Leonardo and Micro support change interrupts, so only the following can be used for RX: 
+// 8, 9, 10, 11, 14 (MISO), 15 (SCK), 16 (MOSI).
+#define pin_PM_TXD_rx 9 // must be one of above
+#define pin_PM_RXD_tx 6 // can be any. my wire was just soldered on 6 at the time.
 
 #include <SoftwareSerial.h>
 
-SoftwareSerial pm_serial(A1, A2); // RX, TX
+SoftwareSerial pm_serial(pin_PM_TXD_rx, pin_PM_RXD_tx); // RX, TX
 
 float pm25; //2.5um particles detected in ug/m3
 float pm10; //10um particles detected in ug/m3
