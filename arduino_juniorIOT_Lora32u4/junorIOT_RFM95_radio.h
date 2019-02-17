@@ -1,12 +1,6 @@
 
 
-
 //   // <RH_RF95.h>      --> \RadioHead-1.79.zip --> no longer in use, this allows device to device radio
-
-
-
-
-
 
 
 void RFM95_radio_init () {

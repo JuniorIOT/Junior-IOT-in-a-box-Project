@@ -69,7 +69,7 @@ void hal_pin_nss (uint8_t val) {
 
 static void rxlora () {                             // start LoRa receiver (time=LMIC.rxtime, timeout=LMIC.rxsyms, result=LMIC.frame[LMIC.dataLen])
     setopmode(0x01);  // enter standby mode (warm up))
-    writeReg(0x23, 64);                             // Register LORARegPayloadMaxLength - set max payload size
+    writeReg(0x23, 64);                             //Register LORARegPayloadMaxLength - set max payload size
     writeReg(0x33, 0x67);                           // Register LORARegInvertIQ - use inverted I/Q signal (prevent mote-to-mote communication)
     writeReg(0x1F, 0);                              // Register LORARegSymbTimeoutLsb - set symbol timeout (for single rx) - gedefinieerd op MINRX_SYMS
     writeReg(0x39, 0x34);                           // Register LORARegSyncWord - set sync word

@@ -58,5 +58,3 @@ void BME280_init() {  // see SEEDSTUDIO example
   // as part of init, do one measurement to load values into send buffer
   BME280_measure();
 }
-
-

@@ -1,26 +1,9 @@
 
-// test for SDS021 Particle Matter sensor
+// test for SDS011 Particle Matter sensor
 // 1. MUST HAVE 5 VOLTS ON POWER, not working with standard 3.3V from Lora32u4
-// 2. Softwareserial or NeoSW does work on selected pins only
 
 //       THIS TEST PROGRAM NEEDS DEBUGGING - NOT WORKING
-/*
-  Reading bytes from SDS021 Air Quality PM2.5/10 Particle Sensor
-  By: Nathan Seidle
-  SparkFun Electronics
-  Date: May 8th, 2017
-  License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
-  This example shows how to read the PM2.5 and PM10 readings from the sensor
-*/
 
-#define pin_PM_TXD_rx 19 
-#define pin_PM_RXD_tx 20  
-// SDS021 TXD is connected to A2 = digitaal 20
-// SDS021 RXD is connected to A1 = digitaal 19
-
-#include <SoftwareSerial.h>
-
-SoftwareSerial pm_serial( pin_PM_TXD_rx, pin_PM_RXD_tx); // RX, TX
 
 float pm25; //2.5um particles detected in ug/m3
 float pm10; //10um particles detected in ug/m3
@@ -34,13 +17,13 @@ boolean pm_doOneMeasure(void)
 
   while (1)
   {
-    while (!pm_serial.available())
+    while (!Serial1.available())
     {
       delay(1);
       if (millis() - startTime > 1500) return (false); //Timeout error
     }
 
-    if (pm_serial.read() == 0xAA) break; //We have the message header
+    if (Serial1.read() == 0xAA) break; //We have the message header
   }
 
   //Read the next 9 bytes
@@ -48,13 +31,13 @@ boolean pm_doOneMeasure(void)
   for (byte spot = 1 ; spot < 10 ; spot++)
   {
     startTime = millis();
-    while (!pm_serial.available())
+    while (!Serial1.available())
     {
       delay(1);
       if (millis() - startTime > 1500) return (false); //Timeout error
     }
 
-    sensorValue[spot] = pm_serial.read();
+    sensorValue[spot] = Serial1.read();
   }
 
   //Check CRC
@@ -155,11 +138,11 @@ void pm_sendCommand(byte commandNumber, byte dataByte2, byte dataByte3)
   //Hardware serial doesn't have this issue but software serial does.
   //Sending 10 throw away characters at it gets the units talking correctly
   for (byte x = 0 ; x < 10 ; x++)
-    pm_serial.write('!'); //Just get the software serial working
+    Serial1.write('!'); //Just get the software serial working
 
   //Send command packet
   for (byte x = 0 ; x < 19 ; x++)
-    pm_serial.write(packet[x]);
+    Serial1.write(packet[x]);
 
   //Now look for response
   pm_doOneMeasure();
@@ -187,7 +170,7 @@ void pm_wakeUp(void)
 void setup_pm()
 {
   Serial.println("  pm Setup sensor");
-  pm_serial.begin(9600);          //SDS021 reports at 1Hz at 9600bps
+  Serial1.begin(9600);          //SDS011 reports at 1Hz at 9600bps
 }
 
 void pm_measure()

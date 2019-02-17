@@ -178,7 +178,7 @@ void put_AnalogReads_into_sendbuffer() {
 
 
   myLoraWanData[9] = A0Value >> 8;
-  myLoraWanData[10] = A0Value;Value >> 8;
+  myLoraWanData[10] = A0Value;
 //  myLoraWanData[14] = A2Value;
 //  myLoraWanData[15] = A3Value >> 8;
 //  myLoraWanData[16] = A3Va

@@ -16,7 +16,7 @@
  
 
 
-#define PAYLOADSIZE 58 // The size of the package to be sent
+#define PAYLOADSIZE 40 //Max 40    The size of the package to be sent
 uint8_t  myLoraWanData[60];  // including byte[0]
 //bool has_sent_allready = false; 
 unsigned long datetime_gps=0;
@@ -33,6 +33,7 @@ unsigned long datetime_gps=0;
     // gps coordinates in Long value means 52.6324510 translates into 526324510
     // 5000 trigger value means 25-30 meters
 
+
 #include "keys.h"          // the personal keys to identify our own nodes, in a file outside GITHUB
 #include "juniorIOT_LoraWan.h" // this is where all the LoraWan code and libraries are defined
 // #include "junorIOT_RFM95_radio.h"  --> this allows device to device radio, no longer in use
@@ -47,12 +48,15 @@ unsigned long datetime_gps=0;
 #include <Wire.h> //I2C Arduino Library
 #include "juniorIOT_BME280.h" 
 #include "juniorIOT_HMC5983.h" 
+#include "juniorIOT_SDS011_021.h" 
 
 
 void setup() {  
-  Serial.begin(115200);   // whether 9600 or 115200; the gps feed shows repeated char and cannot be interpreted, setting high value to release system time
-  delay(500);     // Give time to the ATMega32u4 port to wake up and be recognized by the OS.
+  pinMode(LEDPIN, OUTPUT);
   
+  delay(2500);     // Give time to the ATMega32u4 port to wake up and be recognized by the OS.
+  Serial.begin(115200);   // whether 9600 or 115200; the gps feed shows repeated char and cannot be interpreted, setting high value to release system time
+    
   Serial.println(F("\nStarting device.")); 
   Serial.print(F("Setup() started. t=")); Serial.println(millis());
 
@@ -60,11 +64,11 @@ void setup() {
   GPS_init();
   internals_init();
   HMC5983_init();
-  // BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
-  
+   //freeze BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
+  setup_pm();
   // once all values have been initialized, init Lora and send message to TTN
   LoraWan_init();  // --> init and also send one message 
-  
+    
   Serial.print(F("Setup() completed. t=")); Serial.println(millis());
 }
 
@@ -85,8 +89,8 @@ void loop() {
   Serial.print(F("\nRedo all measurements. t=")); Serial.println(millis());
   internals_measure();
   HMC5983_measure();
-  // BME280_measure();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
-
+   BME280_measure();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
+  pm_measure();
   
 
   ////////// Now CHECK IF we need to send a LORAWAN update to the world  ///////////
@@ -96,7 +100,7 @@ void loop() {
       || (l_lon_movement > TXTRIGGER_gps_movement) ) {
     Serial.print(F("   - - - - About to send one LoraWan. ")); 
     last_lora_time = millis();
-    //lmic_slim_init();
+    lmic_slim_init();
     LoraWan_send();    
   } else {
     Serial.print(F("   - Not sending. ")); 

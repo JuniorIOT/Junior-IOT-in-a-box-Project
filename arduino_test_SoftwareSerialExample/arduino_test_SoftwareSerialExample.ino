@@ -29,7 +29,7 @@ void setup() {
 
 void loop() { // run over and over
   if (mySerial.available()) {
-    Serial.print(mySerial.read(), HEX);
+    Serial.print(mySerial.read());
   }
   if (Serial.available()) {
     mySerial.write(Serial.read());

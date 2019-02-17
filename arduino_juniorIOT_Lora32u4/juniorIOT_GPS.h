@@ -40,7 +40,7 @@ void print_encoded_dt(unsigned long datetime_gps) {
 }
 
 //////////////////////////////////////////////////////////
-//// Kaasfabriek routines for gps
+//// Junior IOT routines for gps
 ////////////////////////////////////////////
 long l_lat, l_lon, l_alt, l_lat_hist, l_lon_hist, l_lat_movement, l_lon_movement;
 int hdopNumber; 

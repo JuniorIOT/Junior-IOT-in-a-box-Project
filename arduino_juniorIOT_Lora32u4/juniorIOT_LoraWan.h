@@ -1,9 +1,8 @@
 
-
 //#include <SPI.h>  //MISO MOSI SCK stuff that was part of 2017 thing with rfm95
-#include <avr/pgmspace.h>  // not sure why this one
+#include <avr/pgmspace.h>  // not sure why this one  //removed 20190217
 #include <lmic_slim.h>     // the really cool micro-library, to replace our 2017 LMIC which filled 99% memory
-
+#include <Arduino.h>
 
 int TX_COMPLETE_was_triggered = 0;  // 20170220 added to allow full controll in main Loop
 unsigned long last_lora_time = millis(); // last time lorawan 
@@ -11,29 +10,15 @@ unsigned long last_check_time = millis(); // last time we checked for movement d
 
 uint32_t charToHex(char c){
   switch(c){
-    case '0': return 0x00; 
-    case '1': return 0x01; 
-    case '2': return 0x02; 
-    case '3': return 0x03; 
-    case '4': return 0x04; 
-    case '5': return 0x05; 
-    case '6': return 0x06; 
-    case '7': return 0x07; 
-    case '8': return 0x08; 
-    case '9': return 0x09; 
-    case 'A': return 0x0A; 
-    case 'B': return 0x0B; 
-    case 'C': return 0x0C; 
-    case 'D': return 0x0D; 
-    case 'E': return 0x0E; 
-    case 'F': return 0x0F; 
+    case '0': return 0x00;     case '1': return 0x01;     case '2': return 0x02;     case '3': return 0x03; 
+    case '4': return 0x04;     case '5': return 0x05;     case '6': return 0x06;     case '7': return 0x07; 
+    case '8': return 0x08;     case '9': return 0x09;     case 'A': return 0x0A;     case 'B': return 0x0B; 
+    case 'C': return 0x0C;     case 'D': return 0x0D;     case 'E': return 0x0E;     case 'F': return 0x0F; 
   }
 }
 
-
-
 //////////////////////////////////////////////////
-// Kaasfabriek routines for LMIC_slim for LoraWan
+// Junior IOT routines for LMIC_slim (by Denniz) for LoraWan
 ///////////////////////////////////////////////
 
 void lmic_slim_init() {
@@ -42,61 +27,67 @@ void lmic_slim_init() {
   //#endif
   
   spi_start();
-  pinMode(SS_pin, OUTPUT);                                                                  
-  pinMode(SCK_pin, OUTPUT);                                         
+  pinMode(SS_pin, OUTPUT);   
+  pinMode(SCK_pin, OUTPUT); 
   pinMode(MOSI_pin, OUTPUT);
   digitalWrite(SCK_pin, LOW);            // SCK low
   digitalWrite(SS_pin, HIGH);            // NSS high
   delay(10);
-  writeReg(0x01, 0x08);
+  //writeReg(0x01, 0x08); //set RFM_95 to low freq, sleep mode
   delay(10);
-  radio_init();  // that is in the LMIC_slim library
+  //radio_init();  // that is in the LMIC_slim library
   delay(10);
   
-  //  uint8_t nwkskey[sizeof(NWKSKEY)];
-  uint8_t nwkskey[16];  
-  // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
- 
-  char *p = nwkSKey;
-  for(int i = 0; i < 16; i++){
-    char c1 = *p;
-    p++;
-    char c2 = *p;
-    p++;
-    uint8_t ui1 = charToHex(c1);
-    uint8_t ui2 = charToHex(c2);
-    uint8_t ui = ui1 << 4 | ui2;
-    nwkskey[i]=ui;
-    //if(nwkskey[i]<16)Serial.print('0');
-    //Serial.print(nwkskey[i], HEX);
-  }
-  //Serial.println();
+//  // OLD style key registration
+  uint8_t appskey[sizeof(APPSKEY)];
+  uint8_t nwkskey[sizeof(NWKSKEY)];
+  memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));
+  memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
 
-  //  uint8_t appskey[sizeof(APPSKEY)];
-  uint8_t appskey[16];
-  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY)); 
+//  // new style key registration
+//  uint8_t nwkskey[16];  
+//  // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
+//    char *p = nwkSKey;
+//    for(int i = 0; i < 16; i++){
+//      char c1 = *p;
+//      p++;
+//      char c2 = *p;
+//      p++;
+//      uint8_t ui1 = charToHex(c1);
+//      uint8_t ui2 = charToHex(c2);
+//      uint8_t ui = ui1 << 4 | ui2;
+//      nwkskey[i]=ui;
+//    }
+
+//  // new style key registration
+//  uint8_t appskey[16];
+//  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY)); 
+//  p = appSKey;
+//  for(int i = 0; i < 16; i++){
+//    char c1 = *p;
+//    p++;
+//    char c2 = *p;
+//    p++;
+//    uint8_t ui1 = charToHex(c1);
+//    uint8_t ui2 = charToHex(c2);
+//    uint8_t ui = ui1 << 4 | ui2;
+//    appskey[i]=ui;
+//  }
+
+//  // new style key registration
+//  p = devAddr;
+//  uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
   
-  p = appSKey;
-  for(int i = 0; i < 16; i++){
-    char c1 = *p;
-    p++;
-    char c2 = *p;
-    p++;
-    uint8_t ui1 = charToHex(c1);
-    uint8_t ui2 = charToHex(c2);
-    uint8_t ui = ui1 << 4 | ui2;
-    appskey[i]=ui;
-    //if(appskey[i]<16)Serial.print('0');
-    //Serial.print(appskey[i], HEX);
-  }
-  //Serial.println();
-
-  p = devAddr;
-  uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
-  Serial.print("  DEVADDR = ");
-  Serial.print(DEVADDR, HEX);Serial.print(" ");
+  Serial.print("  TTN registration:  LMIC_setSession (DEVADDR, nwkskey, appskey) \n");
+  Serial.print("    DEVADDR = ");Serial.print(DEVADDR, HEX);Serial.print(" \n");
+  Serial.print("    nwkskey = ");
+    //Serial.print(nwkskey);
+    for(int i=0;i<16;i++){if(nwkskey[i]<16)Serial.print('0');Serial.print(nwkskey[i],HEX);Serial.print(" ");} Serial.print(" \n");
+  Serial.print("    appskey = ");
+    //Serial.print(appskey);
+    for(int i=0;i<16;i++){if(appskey[i]<16)Serial.print('0');Serial.print(appskey[i],HEX);Serial.print(" ");} Serial.print(" \n");
   Serial.println();
-
+  
   LMIC_setSession (DEVADDR, nwkskey, appskey);
   
   LMIC_LORARegModemConfig (0x72, 0b01110100, 0x04);  // LORARegModemConfig1, LORARegModemConfig2, LORARegModemConfig3
@@ -126,7 +117,7 @@ void lmic_slim_init() {
 }
 
 void print_myLoraWanData() {
-  #ifdef SHOW_DEBUGLEVEL2
+  //#ifdef SHOW_DEBUGLEVEL2
   Serial.print(F("  myLoraWanData = [")); 
   //Serial.print((char*)myLoraWanData); Serial.println("]"); Serial.print(F("                  [ "));  
   for(int i=0; i<PAYLOADSIZE; i++) {  
@@ -134,42 +125,34 @@ void print_myLoraWanData() {
     Serial.print(myLoraWanData[i], HEX); 
     Serial.print(F(" "));  
   }  
-  Serial.println();
-  #endif 
+  Serial.println("]");
+  //#endif 
 }
 
 //------------------------------
 
-void LoraWan_send() {
-
-  
-    Serial.print(F("   - - - - About to send one LoraWan. ")); 
-    last_lora_time = millis();
+void LoraWan_send() {  
+  Serial.println(F("   - - - - About to send one LoraWan message. ")); 
+  last_lora_time = millis();
     
-//  uint32_t LoraWan_Counter = LMIC_getSeqnoUp();  // getCounter zit NIET in LMIC_slim library
-//  myLoraWanData[23] = LoraWan_Counter >> 8; // no longer used, now used for Temp
-//  myLoraWanData[24] = LoraWan_Counter; 
-  
   #ifdef SHOW_DEBUG
   Serial.print(F("Start: - - - - - - - - - - -- - - - doOneLoraWan. t=")); Serial.println(millis());
   print_myLoraWanData();
   #endif
-  
+
   LMIC_setTxData2(myLoraWanData, PAYLOADSIZE);
-  radio_init();                                                       
+  radio_init();
   delay (10);
-  //digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(LEDPIN, !digitalRead(LEDPIN));
   
-  #ifdef SHOW_DEBUGLEVEL2
+  //#ifdef SHOW_DEBUGLEVEL2
   Serial.print(F("  txLora. t=")); Serial.println(millis());
-  #endif
-  
+  //#endif
   txlora();
   
-  #ifdef SHOW_DEBUGLEVEL2
+  //#ifdef SHOW_DEBUGLEVEL2
   Serial.print(F("  txLora completed. t=")); Serial.println(millis());
-  #endif
+  //#endif
   
   delay(200);           // this is a simple wait with no checking for TX Ready. Sdjust this for your SF.
                           // Airtime voor 5 bytes payload = 13 x 2^(SF-6) ms. 
@@ -190,7 +173,7 @@ void LoraWan_send() {
 
 void LoraWan_init () {
   
-  Serial.print(F("\nStarting LoraWan. ")); 
+  Serial.print(F("\n\nLoraWan_init\nStarting LoraWan. ")); 
   lmic_slim_init();
        
   last_lora_time = millis();

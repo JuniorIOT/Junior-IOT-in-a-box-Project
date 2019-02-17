@@ -32,31 +32,35 @@ void readBME(){
   Serial.println("%");
  
   Serial.println();
-
 }
 
 void BME280_init() {  // see SEEDSTUDIO example
-  Serial.print(F("BME280 init. ")); 
-  //   Vin to 3V3
-  //   GND to gnd
+  Serial.print(F("BME280 init. "));
   //   SCL to SCL = 3
   //   SDA to SDA = 2
+  
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  digitalWrite(6, HIGH);
+  digitalWrite(5, LOW);
  
   if(!bme280.init()){
     Serial.println("BME280 device error or not found");
+  } else {
+    Serial.println("BME280 device found");    
   }
-
 }
 
 void setup() {
   Serial.begin(115200);
-  delay(500);
+  delay(2000);
   
   Serial.println(F("\nStarting BME280 test.")); 
   BME280_init();
 }
 
 void loop() {
+  Serial.print(F("BME280 testing. ")); 
   readBME();
   delay(1000);
 }
