@@ -195,33 +195,38 @@ void pm_measure()
 //  // pm25_bin and pm10_bin are 2 byte values
 //  //   byte 40, 41     PPM 2.5    2 bytes, AD measurement directly from AD port put_PM_into_sendbuffer
 //  //   byte 42, 43     PPM 10     2 bytes, AD measurement directly from AD port
-//  
+//
 //  myLoraWanData[40] = ( pm25_bin >> 8 ) & 0xFF;
 //  myLoraWanData[41] = pm25_bin & 0xFF;
-//  
+//
 //  myLoraWanData[42] = ( pm10_bin >> 8 ) & 0xFF;
 //  myLoraWanData[43] = pm10_bin & 0xFF;
-//  
+//
 //  #ifdef DEBUG
 //  Serial.print(F("  pm25_bin=")); Serial.print(pm25_bin); Serial.print(F("  pm10_bin=")); Serial.println(pm10_bin);
 //  #endif
 //}
 
 
-  
+
 void setup() {
   Serial.begin(115200);
   delay(1500);
-  
+
   setup_pm();
-  
-  Serial.println(F("\nStarting SDS021 test.")); 
+
+  Serial.println(F("\nStarting SDS021 test."));
 }
 
 void loop() {
+  pm_getFirmwareVersion(); // testing send
+  delay(1000);
 
   pm_measure();
-  
+
+  delay(1000);
+  pm_goToSleep(); // testing sleep
+  delay(1000);
+  pm_wakeUp(); // and wake up
   delay(1000);
 }
-
