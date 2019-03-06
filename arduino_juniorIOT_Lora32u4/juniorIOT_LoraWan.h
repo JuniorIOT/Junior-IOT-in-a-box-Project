@@ -39,44 +39,44 @@ void lmic_slim_init() {
   delay(10);
   
 //  // OLD style key registration
-  uint8_t appskey[sizeof(APPSKEY)];
-  uint8_t nwkskey[sizeof(NWKSKEY)];
-  memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));
-  memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
+//  uint8_t appskey[sizeof(APPSKEY)];
+//  uint8_t nwkskey[sizeof(NWKSKEY)];
+//  memcpy_P(appskey, APPSKEY, sizeof(APPSKEY));
+//  memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
 
-//  // new style key registration
-//  uint8_t nwkskey[16];  
-//  // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
-//    char *p = nwkSKey;
-//    for(int i = 0; i < 16; i++){
-//      char c1 = *p;
-//      p++;
-//      char c2 = *p;
-//      p++;
-//      uint8_t ui1 = charToHex(c1);
-//      uint8_t ui2 = charToHex(c2);
-//      uint8_t ui = ui1 << 4 | ui2;
-//      nwkskey[i]=ui;
-//    }
+  // new style key registration
+  uint8_t nwkskey[16];  
+  // memcpy_P(nwkskey, NWKSKEY, sizeof(NWKSKEY));
+    char *p = nwkSKey;
+    for(int i = 0; i < 16; i++){
+      char c1 = *p;
+      p++;
+      char c2 = *p;
+      p++;
+      uint8_t ui1 = charToHex(c1);
+      uint8_t ui2 = charToHex(c2);
+      uint8_t ui = ui1 << 4 | ui2;
+      nwkskey[i]=ui;
+    }
 
-//  // new style key registration
-//  uint8_t appskey[16];
-//  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY)); 
-//  p = appSKey;
-//  for(int i = 0; i < 16; i++){
-//    char c1 = *p;
-//    p++;
-//    char c2 = *p;
-//    p++;
-//    uint8_t ui1 = charToHex(c1);
-//    uint8_t ui2 = charToHex(c2);
-//    uint8_t ui = ui1 << 4 | ui2;
-//    appskey[i]=ui;
-//  }
+  // new style key registration
+  uint8_t appskey[16];
+  // memcpy_P(appskey, APPSKEY, sizeof(APPSKEY)); 
+  p = appSKey;
+  for(int i = 0; i < 16; i++){
+    char c1 = *p;
+    p++;
+    char c2 = *p;
+    p++;
+    uint8_t ui1 = charToHex(c1);
+    uint8_t ui2 = charToHex(c2);
+    uint8_t ui = ui1 << 4 | ui2;
+    appskey[i]=ui;
+  }
 
-//  // new style key registration
-//  p = devAddr;
-//  uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
+  // new style key registration
+  p = devAddr;
+  uint32_t DEVADDR = ((((((charToHex(*p++) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p++)) << 4 | charToHex(*p);
   
   Serial.print("  TTN registration:  LMIC_setSession (DEVADDR, nwkskey, appskey) \n");
   Serial.print("    DEVADDR = ");Serial.print(DEVADDR, HEX);Serial.print(" \n");
@@ -87,6 +87,8 @@ void lmic_slim_init() {
     //Serial.print(appskey);
     for(int i=0;i<16;i++){if(appskey[i]<16)Serial.print('0');Serial.print(appskey[i],HEX);Serial.print(" ");} Serial.print(" \n");
   Serial.println();
+
+
   
   LMIC_setSession (DEVADDR, nwkskey, appskey);
   

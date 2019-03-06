@@ -16,13 +16,21 @@
  
 
 
+//-------------- Message Byte Positions  ------------//
+#define GPS_sendbufferStartByte 0 //9 bytes
+#define internals_sendbufferStartByte 9 //17 bytes
+#define BME280_sendbufferStartByte 26 //6 bytes
+#define SDS_sendbufferStartByte 32 //4 bytes
+#define MHZ19_sendbufferStartByte 36 //2 bytes
+#define LeoEQ7_sendbufferStartByte 38 //16 bytes
+
 #define PAYLOADSIZE 40 //Max 40    The size of the package to be sent
 uint8_t  myLoraWanData[60];  // including byte[0]
 //bool has_sent_allready = false; 
 unsigned long datetime_gps=0;
 
 //-------------- generic and Arduino Lora32u4 internals ------------//
-#define SHOW_DEBUG           // if SHOW_DEBUG is defined, some code is added to display some basic SHOW_DEBUG info
+//#define SHOW_DEBUG           // if SHOW_DEBUG is defined, some code is added to display some basic SHOW_DEBUG info
 //#define SHOW_DEBUGLEVEL2     // if SHOW_DEBUGLEVEL2 is defined, some code is added to display deeper SHOW_DEBUG info
 #include "juniorIOT_32u4internals.h"
 
@@ -64,7 +72,7 @@ void setup() {
   GPS_init();
   internals_init();
   HMC5983_init();
-   //freeze BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
+  BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
   setup_pm();
   // once all values have been initialized, init Lora and send message to TTN
   LoraWan_init();  // --> init and also send one message 

@@ -97,17 +97,17 @@ void put_gpsvalues_into_sendbuffer() {
 //  Serial.print(F("\n  hdopNumber = "));Serial.println(hdopNumber);
 //  Serial.print(F("  HdopBinary = "));Serial.println(HdopBinary);
   
-  myLoraWanData[0] = LatitudeBinary >> 16;
-  myLoraWanData[1] = LatitudeBinary >> 8;
-  myLoraWanData[2] = LatitudeBinary;
-  myLoraWanData[3] = LongitudeBinary >> 16;
-  myLoraWanData[4] = LongitudeBinary >> 8;
-  myLoraWanData[5] = LongitudeBinary;
+  myLoraWanData[GPS_sendbufferStartByte + 0] = LatitudeBinary >> 16;
+  myLoraWanData[GPS_sendbufferStartByte + 1] = LatitudeBinary >> 8;
+  myLoraWanData[GPS_sendbufferStartByte + 2] = LatitudeBinary;
+  myLoraWanData[GPS_sendbufferStartByte + 3] = LongitudeBinary >> 16;
+  myLoraWanData[GPS_sendbufferStartByte + 4] = LongitudeBinary >> 8;
+  myLoraWanData[GPS_sendbufferStartByte + 5] = LongitudeBinary;
   // altitudeGps in meters into unsigned int
-  myLoraWanData[6] = altitudeBinary >> 8;
-  myLoraWanData[7] = altitudeBinary;
+  myLoraWanData[GPS_sendbufferStartByte + 6] = altitudeBinary >> 8;
+  myLoraWanData[GPS_sendbufferStartByte + 7] = altitudeBinary;
   // hdop in tenths of meter
-  myLoraWanData[8] = HdopBinary;
+  myLoraWanData[GPS_sendbufferStartByte + 8] = HdopBinary;
 
   print_myLoraWanData();
   

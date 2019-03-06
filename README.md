@@ -171,35 +171,31 @@ Credits:
 
 
     -- now our 'internal' values
- 9             VCC        byte, 50ths, 0 - 5.10 volt -- secret voltmeter
- 10        CPUtemp    byte, -100 - 155 deg C     -- secret thermometer +/- 10 degrees
- 11        Vbat       byte, 50ths, 0 - 5.10 volt -- hardwired Lora32u4
+     9             VCC        byte, 50ths, 0 - 5.10 volt -- secret voltmeter
+    10        CPUtemp    byte, -100 - 155 deg C     -- secret thermometer +/- 10 degrees
+    11        Vbat       byte, 50ths, 0 - 5.10 volt -- hardwired Lora32u4
+	
+	12, 13   A0
+     14, 15   A1 ?? 10 bit analog read from A1 = TEMT6000  0..1023
+	 ...
+	 18, 19, 20, 21    DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+	 22, 23, 24, 25    DateTime btn off    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
 
-
-	-- A1 TEMT
-22, 23	    10 bit analog read from A1 = TEMT6000  0..1023
-24, 25	    10 bit analog read from A11
-
-
- x     
-        0b0000 0000            
-          -nnn nnnn Compass    0-120, My compass in 3 degree precision 0..360
-                               Value=127: no compass value
-          1--- ---- MyBtn#1    bit, is my button pressed
+	
     -- BME280
-26, 27      BME280 Temperature 2 bytes  
-28, 29      BME280 Moisture   2 bytes,
-30, 31      BME280 AirPress   2 bytes,
+    26, 27      BME280 Temperature 2 bytes  (bme280_temperature)/100 + 100
+    28, 29      BME280 Moisture   2 bytes,   (bme280_humidity)/100 
+    30, 31      BME280 AirPress   2 bytes,    (bme280_pressure)/10
 
     -- SDS021
-32, 33      SDS021 PPM 2.5    2 bytes,
-34, 35      SDS021 PPM 10     2 bytes,
-
+    32, 33      SDS021 PPM 2.5    2 bytes,
+    34, 35      SDS021 PPM 10     2 bytes,
+ 
     -- MH-Z19
-36, 37      MH-Z19 CO2        2 bytes,
+    36, 37      MH-Z19 CO2        2 bytes,
 
     -- LeoEQ7
-38-54     Audio averages   16 bytes
+    38-54     Audio averages   16 bytes
                Audio all            16 bit analog read 0..65536
 	             Audio 1,     63Hz    16 bit analog read 0..65536
                Audio 2,    160Hz    16 bit analog read 0..65536
@@ -209,11 +205,9 @@ Credits:
 	             Audio 6,  6.250Hz    16 bit analog read 0..65536
                Audio 7, 16.000Hz    16 bit analog read 0..65536
 
-  X       Audio peak5   10 bytes
-
--- A0 switch
-12, 13        10 bit analog read from A0 = Pushbutton  0..1023
-14-17        DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
-18-21         DateTime btn off
+    -- A0 switch
+    12, 13        10 bit analog read from A0 = Pushbutton  0..1023
+    14-17        DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
+    18-21         DateTime btn off
 
 ```

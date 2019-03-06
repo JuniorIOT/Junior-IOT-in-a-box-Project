@@ -177,26 +177,23 @@ void put_AnalogReads_into_sendbuffer() {
 //  Serial.println();
 
 
-  myLoraWanData[9] = A0Value >> 8;
-  myLoraWanData[10] = A0Value;
-//  myLoraWanData[14] = A2Value;
-//  myLoraWanData[15] = A3Value >> 8;
-//  myLoraWanData[16] = A3Va
-  myLoraWanData[11] = A1Value >> 8;
-  myLoraWanData[12] = A1Value;
-//  myLoraWanData[13] = A2lue;
+  myLoraWanData[internals_sendbufferStartByte + 3] = A0Value >> 8;
+  myLoraWanData[internals_sendbufferStartByte + 4] = A0Value;
+  myLoraWanData[internals_sendbufferStartByte + 5] = A1Value >> 8;
+  myLoraWanData[internals_sendbufferStartByte + 6] = A1Value;
+  //                                        waar is A11? 2 bytes
               
   //    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
-  myLoraWanData[25] = datetime_BtnOn >>24; 
-  myLoraWanData[26] = datetime_BtnOn >>16; 
-  myLoraWanData[27] = datetime_BtnOn >>8; 
-  myLoraWanData[28] = datetime_BtnOn; 
+  myLoraWanData[internals_sendbufferStartByte + 9] = datetime_BtnOn >>24; 
+  myLoraWanData[internals_sendbufferStartByte + 10] = datetime_BtnOn >>16; 
+  myLoraWanData[internals_sendbufferStartByte + 11] = datetime_BtnOn >>8; 
+  myLoraWanData[internals_sendbufferStartByte + 12] = datetime_BtnOn; 
 
   //    byte 25, 26, 27, 28 DateTime btn on    4 bytes, bits 6 Y-2000, 4 M, 5 D, 5 H, 6 M, 6 S
-  myLoraWanData[29] = datetime_BtnOff >>24; 
-  myLoraWanData[30] = datetime_BtnOff >>16; 
-  myLoraWanData[31] = datetime_BtnOff >>8; 
-  myLoraWanData[32] = datetime_BtnOff; 
+  myLoraWanData[internals_sendbufferStartByte + 13] = datetime_BtnOff >>24; 
+  myLoraWanData[internals_sendbufferStartByte + 14] = datetime_BtnOff >>16; 
+  myLoraWanData[internals_sendbufferStartByte + 15] = datetime_BtnOff >>8; 
+  myLoraWanData[internals_sendbufferStartByte + 16] = datetime_BtnOff; 
   
 }
 
@@ -221,9 +218,9 @@ void put_Volts_and_Temp_into_sendbuffer() {
   Serial.print(F("  Vbat=")); Serial.print(vbat); Serial.print(F(" mV. bin=")); Serial.print(vbat_bin); Serial.println();
   #endif 
   
-  myLoraWanData[18] = vcc_bin;
-  myLoraWanData[19] = cpuTemp_bin;
-  myLoraWanData[20] = vbat_bin;
+  myLoraWanData[internals_sendbufferStartByte + 0] = vcc_bin;
+  myLoraWanData[internals_sendbufferStartByte + 1] = cpuTemp_bin;
+  myLoraWanData[internals_sendbufferStartByte + 2] = vbat_bin;
 
 }
 

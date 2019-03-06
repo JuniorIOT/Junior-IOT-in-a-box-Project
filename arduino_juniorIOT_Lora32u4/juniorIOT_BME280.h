@@ -5,31 +5,45 @@
 ////////////////////////////////////////////
 
 BME280 bme280;
+float bme280_temperature;
+float bme280_pressure;
+float bme280_humidity;
 
 void readBME(){  
   //get and print temperatures
   Serial.print(F("BME280 Temp: "));
-  float bme280_temperature = bme280.getTemperature();
+  bme280_temperature = bme280.getTemperature();
   Serial.print(bme280_temperature);
   Serial.println(" deg C");  //The unit for  Celsius because original arduino don't support speical symbols
   
   //get and print atmospheric pressure data
   Serial.print(F("BME280 Pressure: "));
-  float bme280_pressure = bme280.getPressure();
+  bme280_pressure = bme280.getPressure();
   Serial.print(bme280_pressure);
   Serial.println(" Pa");
 
 //  //get and print altitude data
 //  Serial.print(F("BME280 Altitude: "));
   Serial.print(F("BME280 Humidity: "));
-  float bme280_humidity = bme280.getHumidity();
+  bme280_humidity = bme280.getHumidity();
   Serial.print(bme280_humidity);
   Serial.println("%");
 }
 void put_BME_into_sendbuffer(){
-  readBME();
+  //readBME();
 
-  // TODO
+  // 
+  uint16_t _temp = (bme280_temperature + 100 )*100 ;
+  myLoraWanData[BME280_sendbufferStartByte + 0] = _temp >> 8;
+  myLoraWanData[BME280_sendbufferStartByte + 1] = _temp;
+  
+  uint16_t _hum = (bme280_humidity) * 100 ;
+  myLoraWanData[BME280_sendbufferStartByte + 2] = _hum >> 8;
+  myLoraWanData[BME280_sendbufferStartByte + 3] = _hum;
+  
+  uint16_t _p = (bme280_pressure)/10 ;
+  myLoraWanData[BME280_sendbufferStartByte + 4] = _p >> 8;
+  myLoraWanData[BME280_sendbufferStartByte + 5] = _p;  
 }
 
 //------------------------

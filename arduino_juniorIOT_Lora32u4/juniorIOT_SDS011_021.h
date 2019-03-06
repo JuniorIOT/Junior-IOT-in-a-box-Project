@@ -177,6 +177,30 @@ void setup_pm()
   Serial1.begin(9600);          //SDS011 reports at 1Hz at 9600bps
 }
 
+void put_PM_into_sendbuffer() {
+  Serial.print(F("put_PM_into_sendbuffer started. milis=")); Serial.println(millis());
+  // pm25_bin and pm10_bin are 2 byte values
+  //   byte 40, 41     PPM 2.5    2 bytes, AD measurement directly from AD port put_PM_into_sendbuffer
+  //   byte 42, 43     PPM 10     2 bytes, AD measurement directly from AD port
+
+  uint16_t pm25_bin = pm25 * 10; // ug/m3 
+  Serial.println(pm25_bin);
+  uint16_t pm10_bin = pm10 * 10; // ug/m3 
+  Serial.println(pm10_bin);
+  
+  myLoraWanData[SDS_sendbufferStartByte + 0] = ( pm25_bin >> 8 ) & 0xFF;
+  myLoraWanData[SDS_sendbufferStartByte + 1] = pm25_bin & 0xFF;
+  
+  myLoraWanData[SDS_sendbufferStartByte + 2] = ( pm10_bin >> 8 ) & 0xFF;
+  myLoraWanData[SDS_sendbufferStartByte + 3] = pm10_bin & 0xFF;
+  
+  #ifdef DEBUG
+  Serial.print(F("  pm25_bin=")); Serial.print(pm25_bin); Serial.print(F("  pm10_bin=")); Serial.println(pm10_bin);
+  #endif
+}
+
+
+
 void pm_measure()
 {
   if (pm_doOneMeasure())
@@ -192,25 +216,8 @@ void pm_measure()
   {
     Serial.println("  pm No PM sensor found or timed-out.");
   }
+  put_PM_into_sendbuffer();
 }
-//
-//void put_PM_into_sendbuffer() {
-//  Serial.print(F("put_PM_into_sendbuffer started. milis=")); Serial.println(millis());
-//  // pm25_bin and pm10_bin are 2 byte values
-//  //   byte 40, 41     PPM 2.5    2 bytes, AD measurement directly from AD port put_PM_into_sendbuffer
-//  //   byte 42, 43     PPM 10     2 bytes, AD measurement directly from AD port
-//  
-//  myLoraWanData[40] = ( pm25_bin >> 8 ) & 0xFF;
-//  myLoraWanData[41] = pm25_bin & 0xFF;
-//  
-//  myLoraWanData[42] = ( pm10_bin >> 8 ) & 0xFF;
-//  myLoraWanData[43] = pm10_bin & 0xFF;
-//  
-//  #ifdef DEBUG
-//  Serial.print(F("  pm25_bin=")); Serial.print(pm25_bin); Serial.print(F("  pm10_bin=")); Serial.println(pm10_bin);
-//  #endif
-//}
-
 
   
 //void setup() {
