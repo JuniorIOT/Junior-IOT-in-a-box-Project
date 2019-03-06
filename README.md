@@ -95,6 +95,7 @@ Credits:
                                             GY-91 ==> Vin GND SCL SDA
                                           HMC5983 ==> Vin GND SCL SDA
                                       GY-BMEP 280 ==> Vin GND SCL SDA
+                               2x AD op de LeoEQ7 ==> Vin GND SCL SDA
                                                        ¦   ¦   ¦   ¦
                                                       red blk whi yel
                                                        ¦   ¦   ¦   ¦
@@ -139,7 +140,7 @@ Credits:
                                ¦   ¦   ¦   ¦               ¦   ¦
                           blk whi gra pur zzz              ¦   ¦
                            ¦   ¦   ¦   ¦   ¦               ¦   ¦
-               LeoEQ7 ==> gnd res pul out mic              ¦   ¦      
+               LeoEQ7 ==> gnd res pul  nc  nc              ¦   ¦      
                                                            ¦   ¦   ¦   ¦
                                             MH-Z19 ==> nc  Tx  Rx Vin GND nc  xx
 
