@@ -188,8 +188,8 @@ Credits:
     30, 31      BME280 AirPress   2 bytes,    (bme280_pressure)/10
 
     -- SDS021
-    32, 33      SDS021 PPM 2.5    2 bytes,
-    34, 35      SDS021 PPM 10     2 bytes,
+    32, 33      SDS021 PPM 2.5    2 bytes,   pm25/10; // ug/m3 
+    34, 35      SDS021 PPM 10     2 bytes,  pm10/10; // ug/m3 
  
     -- MH-Z19
     36, 37      MH-Z19 CO2        2 bytes,
