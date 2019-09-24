@@ -43,6 +43,7 @@ void BME280_init() {  // see SEEDSTUDIO example
   pinMode(6, OUTPUT);
   digitalWrite(6, HIGH);
   digitalWrite(5, LOW);
+  delay(1000); // need to boot the BME280
  
   if(!bme280.init()){
     Serial.println("BME280 device error or not found");

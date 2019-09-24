@@ -55,6 +55,7 @@ void BME280_measure () {
 
 void BME280_init() {  // see SEEDSTUDIO example
   Serial.print(F("BME280 init. t=")); Serial.println(millis());
+
   //  can use first 4 pins are soldered to first 4 pins on lora32u4
   //   Vin to pin 6  // optional Vin
   //   GND to pin 5  // optional GND
@@ -63,7 +64,8 @@ void BME280_init() {  // see SEEDSTUDIO example
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
   digitalWrite(6, HIGH);
-  digitalWrite(5, LOW);
+  digitalWrite(5, LOW);  
+  delay(100);  // need to allow boot time for the device
  
   if(!bme280.init()){
     Serial.println("BME280 device error or not found");

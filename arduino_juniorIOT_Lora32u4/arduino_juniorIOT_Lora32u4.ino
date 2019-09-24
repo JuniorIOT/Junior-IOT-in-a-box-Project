@@ -54,7 +54,7 @@ unsigned long datetime_gps=0;
 
 //-------------- Compass HMC5983, BME280, other items  ------------//
 #include <Wire.h> //I2C Arduino Library
-#include "juniorIOT_BME280.h" 
+  #include "juniorIOT_BME280.h" 
 #include "juniorIOT_HMC5983.h" 
 #include "juniorIOT_SDS011_021.h" 
 
@@ -72,7 +72,7 @@ void setup() {
   GPS_init();
   internals_init();
   HMC5983_init();
-  BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
+    BME280_init();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
   setup_pm();
   // once all values have been initialized, init Lora and send message to TTN
   LoraWan_init();  // --> init and also send one message 
@@ -97,7 +97,7 @@ void loop() {
   Serial.print(F("\nRedo all measurements. t=")); Serial.println(millis());
   internals_measure();
   HMC5983_measure();
-   BME280_measure();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
+    BME280_measure();   Serial.print(F("  Completed: bme280 init. t=")); Serial.println(millis());  // needs debugging, locks if no BME280 is connected
   pm_measure();
   
 
